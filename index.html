@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wei Wenxuan — Mobile &amp; Web Developer Portfolio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%239A5B2E'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='34' fill='%23F6F2EC' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap">
+<style>
+:root{
+  --paper:#F6F2EC;
+  --ink:#241B14;
+  --muted:#6E6157;
+  --accent:#9A5B2E;
+  --line:#E3DBCE;
+  --panel:#EFE9DF;
+  --serif:"Libre Baskerville",Georgia,"Times New Roman",serif;
+  --sans:"Work Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.view{display:none}
+.view.active{display:block}
+.page-top{height:84px}
+section{padding:72px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:none}
+.eyebrow{
+  font-family:var(--sans);
+  font-size:12px;
+  letter-spacing:.14em;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;line-height:1.2}
+h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin-bottom:18px}
+.lead{font-size:clamp(1rem,2vw,1.15rem);color:var(--muted);max-width:52ch}
+.center{text-align:center}
+.center .lead{margin:0 auto}
+
+/* ---------- nav ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:20;background:rgba(246,242,236,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{font-family:var(--serif);font-size:1.05rem;color:var(--accent)}
+.brand:hover{text-decoration:none}
+nav ul{list-style:none;display:flex;gap:22px;flex-wrap:wrap}
+nav a{color:var(--muted);font-size:.92rem}
+nav a:hover{color:var(--accent);text-decoration:none}
+nav a.active{color:var(--accent);font-weight:600}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 56px;border-top:none}
+.hero .kicker{font-size:14px;color:var(--muted);margin-bottom:22px}
+.hero h1{font-size:clamp(2.4rem,6.5vw,4.2rem);max-width:16ch}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero .sub{margin-top:26px;font-size:clamp(1.05rem,2vw,1.3rem);color:var(--muted);max-width:46ch}
+.hero .meta{display:flex;flex-wrap:wrap;gap:12px 26px;margin-top:34px;font-size:.95rem}
+.hero .meta span{display:inline-flex;align-items:center;gap:8px}
+.hero .meta svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.6}
+.hero-cta{margin-top:40px;display:flex;flex-wrap:wrap;gap:14px}
+.btn{display:inline-block;border:1px solid var(--accent);color:var(--accent);padding:12px 24px;font-size:.95rem}
+.btn.solid{background:var(--accent);color:var(--paper)}
+.btn:hover{text-decoration:none;opacity:.9}
+
+/* ---------- project ---------- */
+.tri{display:grid;grid-template-columns:1fr;gap:14px;margin-top:34px}
+.tri .cell{border:1px solid var(--line);background:var(--panel);padding:22px}
+.tri h3{font-size:1.05rem;margin-bottom:8px;color:var(--accent)}
+.tri p{font-size:.95rem;color:var(--muted)}
+.f-title{font-size:1.15rem;margin:44px 0 16px;color:var(--ink)}
+.feat{display:grid;grid-template-columns:1fr;gap:14px}
+.f-card{border:1px solid var(--line);background:#fff;padding:22px}
+.f-card svg{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.6;margin-bottom:10px}
+.f-card h4{font-family:var(--serif);font-size:1rem;margin-bottom:6px}
+.f-card p{font-size:.9rem;color:var(--muted)}
+.arch{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);background:var(--panel);padding:26px}
+.node{text-align:center;font-size:.92rem;font-weight:600;background:#fff;border:1px solid var(--line);padding:14px 10px}
+.node small{display:block;font-weight:400;color:var(--muted);font-size:.8rem;margin-top:2px}
+.node.accent{border-color:var(--accent);color:var(--accent)}
+.arrow{text-align:center;color:var(--muted);font-size:.8rem;padding:8px 0;letter-spacing:.04em}
+.offline{display:flex;flex-direction:column;margin-top:6px;border-top:1px dashed var(--line);padding-top:14px}
+.offline .node.small{font-size:.8rem;padding:8px}
+.offline .arrow.small{padding:6px 0}
+.stack{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.stack li{border:1px solid var(--line);background:#fff;padding:6px 14px;font-size:.88rem}
+
+/* ---------- skills / contact / resume ---------- */
+.skills-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:28px}
+.sk-card{border:1px solid var(--line);background:var(--panel);padding:22px}
+.sk-card h4{font-family:var(--serif);font-size:1rem;margin-bottom:10px}
+.sk-card ul{list-style:none}
+.sk-card li{font-size:.92rem;color:var(--muted);padding:4px 0;border-top:1px dashed var(--line)}
+.contact-box{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;margin-top:32px}
+.social{width:58px;height:58px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
+.social:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.social svg{width:27px;height:27px;fill:currentColor}
+.contact-box a{display:block;border:1px solid var(--line);background:#fff;padding:20px;font-size:1rem}
+footer{padding:40px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+footer .wrap{display:flex;flex-direction:column;gap:10px}
+
+/* ---------- resume ---------- */
+.resume{max-width:860px;margin:0 auto}
+.headshot{width:128px;height:128px;border-radius:50%;object-fit:cover;object-position:center 25%;margin:0 auto 20px;display:block;border:2px solid var(--line);background:#fff}
+.resume-head{text-align:center;padding:8px 0 26px;border-bottom:2px solid var(--ink)}
+.resume-head h1{font-size:clamp(2rem,5vw,2.8rem)}
+.resume-head .role{font-family:var(--serif);font-style:italic;color:var(--accent);font-size:1.05rem;margin-top:6px}
+.resume-head .contact-line{color:var(--muted);font-size:.9rem;margin-top:12px}
+.resume-block{padding:28px 0;border-bottom:1px solid var(--line)}
+.resume-block h3{font-size:1.1rem;margin-bottom:14px;color:var(--ink)}
+.resume-block ul{list-style:none}
+.resume-block li{font-size:.95rem;color:var(--muted);padding:6px 0 6px 22px;position:relative}
+.resume-block li::before{content:"";position:absolute;left:4px;top:16px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.resume-item{margin-bottom:18px}
+.resume-item .t{font-size:1rem;font-family:var(--serif)}
+.resume-item .m{font-size:.9rem;color:var(--accent);margin:2px 0 6px}
+.resume-item p{font-size:.92rem;color:var(--muted)}
+.resume-cols{display:grid;grid-template-columns:1fr;gap:0;margin-top:28px}
+.rtext{color:var(--muted);font-size:.95rem}
+.site{margin:2px 0 8px;font-size:.92rem}
+
+@media (min-width:760px){
+  .page-top{height:96px}
+  section{padding:96px 0}
+  .hero{padding:72px 0 64px}
+  .tri{grid-template-columns:repeat(2,1fr)}
+  .feat{grid-template-columns:repeat(3,1fr)}
+  .skills-grid{grid-template-columns:repeat(3,1fr)}
+  .contact-box{justify-content:center}
+  .arch{flex-direction:row;align-items:center}
+  .arch .node{flex:1;margin:0 6px}
+  .arch .arrow{flex:0 0 auto;padding:0 6px}
+  .offline{flex-direction:row;align-items:center;margin-top:16px;border-top:1px dashed var(--line);padding-top:16px}
+  .offline .node.small{flex:1}
+  .offline .arrow.small{flex:0 0 auto}
+  .resume-cols{grid-template-columns:1.15fr .85fr;gap:34px}
+  .resume-left{padding-right:30px;border-right:1px solid var(--line)}
+  .resume-right{padding-left:2px}
+  footer .wrap{flex-direction:row;justify-content:space-between;align-items:center}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#/home">Wei Wenxuan</a>
+    <ul>
+      <li><a href="#/home">Home</a></li>
+      <li><a href="#/project">Project</a></li>
+      <li><a href="#/resume">Resume</a></li>
+      <li><a href="#/contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-top"></div>
+
+<!-- ===== view: home ===== -->
+<section class="view" id="view-home">
+  <div class="wrap">
+    <div class="hero">
+      <p class="kicker">Portfolio</p>
+      <h1>Hi, I'm Wei Wenxuan — I build mobile &amp; web apps that make things easier for people.</h1>
+      <p class="sub">Software Engineer Intern and BS Information Technology student at FEU Institute of Technology, specializing in Web and Mobile Application development. I build practical products across the frontend, backend, and data layers — from Flutter apps and REST APIs to offline-first systems that stay useful when connectivity is limited.</p>
+      <div class="meta">
+        <span><svg viewBox="0 0 24 24"><path d="M12 3l1.8 3.6 4 .6-2.9 2.8.7 4L12 12.4 8.4 14l.7-4L6.2 7.2l4-.6z"/></svg>FEU Institute of Technology</span>
+        <span><svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 0-7 7c0 5 7 11 7 11s7-6 7-11a7 7 0 0 0-7-7z"/><circle cx="12" cy="10" r="2.5"/></svg>BS Information Technology — WMA</span>
+        <span><svg viewBox="0 0 24 24"><path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M8 8h8M8 12h5"/></svg>Flutter · Node.js · Offline-first</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn solid" href="#/project">See my project</a>
+        <a class="btn" href="#/resume">View resume</a>
+      </div>
+    </div>
+
+    <section>
+      <p class="eyebrow">About</p>
+      <h2>I build practical products from mobile interface to backend.</h2>
+      <p class="lead" style="max-width:64ch">I'm a BS Information Technology student at FEU Institute of Technology, specializing in Web and Mobile Application development. I build practical products across the frontend, backend, and data layers, with hands-on experience in Flutter, Node.js and Express REST APIs, local SQLite storage, MySQL, Firebase Admin, and offline-first synchronization. My capstone project, PicKape, connects a Flutter mobile app to a backend that helps coffee growers manage batches and traceability in low-connectivity environments. I'm seeking a software engineering internship where I can contribute to mobile, web, and backend products while continuing to grow as an engineer.</p>
+    </section>
+  </div>
+</section>
+
+<!-- ===== view: project ===== -->
+<section class="view" id="view-project">
+  <div class="wrap">
+    <p class="eyebrow">Featured Projects</p>
+    <h2>PicKape — Coffee Quality &amp; Traceability System</h2>
+    <p class="lead">PicKape is a farm-to-cup management app for coffee growers. Farmers record harvest batches in the field, scan them, track quality, and hand every bean a clear traceable story — even on farms where the network is unreliable.</p>
+    <p style="margin-top:24px"><a class="btn solid" href="https://pickape.com" target="_blank" rel="noopener">Visit the live website</a></p>
+
+    <div class="tri">
+      <div class="cell">
+        <h3>Problem</h3>
+        <p>Farmers tracked harvests with paper logs. Records got lost, quality was judged by feel, and there was no way to trace a batch back to a farm or a harvest date.</p>
+      </div>
+      <div class="cell">
+        <h3>Solution</h3>
+        <p>A Flutter app paired with a Node.js API. Batches are created on the phone, stored locally first, then synced when a connection is available. Every batch carries farm and harvest details for full traceability.</p>
+      </div>
+    </div>
+
+    <h3 class="f-title">Key features</h3>
+    <div class="feat">
+      <div class="f-card">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2"/></svg>
+        <h4>Offline-first sync</h4>
+        <p>Batches save to a local SQLite store first. A sync manager pushes and pulls through the API when the network returns, so no work is lost.</p>
+      </div>
+      <div class="f-card">
+        <svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+        <h4>Live dashboard</h4>
+        <p>The home screen streams assigned lots and harvest totals in real time, so field data shows up as it happens.</p>
+      </div>
+      <div class="f-card">
+        <svg viewBox="0 0 24 24"><path d="M4 4h13v16H4z"/><path d="M17 8h3v12H7v-3"/></svg>
+        <h4>Farm traceability</h4>
+        <p>Every batch links back to its farm and harvest details, giving each lot a clean, auditable story from field to cup.</p>
+      </div>
+      <div class="f-card">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+        <h4>Quality sorting (PQI)</h4>
+        <p>A Preliminary Quality Indicator guides growers toward better sorting, with a clear note that the tool assists and can make mistakes.</p>
+      </div>
+      <div class="f-card">
+        <svg viewBox="0 0 24 24"><path d="M12 3l8 4v6c0 4-3 7-8 8-5-1-8-4-8-8V7z"/><path d="M9 12l2 2 4-4"/></svg>
+        <h4>QR batch scanning</h4>
+        <p>Growers scan a batch in the field with the phone camera. Each scan is stored and linked to the batch record.</p>
+      </div>
+      <div class="f-card">
+        <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 1 9 9 9 9 0 0 1-9 9"/><path d="M3 12h9l-3-3M12 15l3-3"/></svg>
+        <h4>Guarded account flow</h4>
+        <p>Password resets and profile changes run through an approved, moderated flow instead of open endpoints.</p>
+      </div>
+    </div>
+
+    <h3 class="f-title">Architecture</h3>
+    <div class="arch" aria-label="System architecture diagram">
+      <div class="node">Flutter App<br><small>PicKape mobile</small></div>
+      <div class="arrow">REST / HTTPS</div>
+      <div class="node accent">Express API<br><small>Node.js backend</small></div>
+      <div class="arrow">SQL · Firebase</div>
+      <div class="node">Storage<br><small>SQLite + MySQL</small></div>
+      <div class="offline">
+        <div class="node small">Local SQLite</div>
+        <div class="arrow small">offline sync</div>
+      </div>
+    </div>
+
+    <h3 class="f-title">Tech stack</h3>
+    <ul class="stack">
+      <li>Flutter</li>
+      <li>Dart</li>
+      <li>Node.js</li>
+      <li>Express</li>
+      <li>SQLite</li>
+      <li>MySQL</li>
+      <li>Firebase Admin</li>
+      <li>REST API</li>
+      <li>QR scanning</li>
+    </ul>
+
+  </div>
+</section>
+
+<!-- ===== view: resume ===== -->
+<section class="view" id="view-resume">
+  <div class="wrap">
+    <div class="resume">
+      <div class="resume-head">
+        <img class="headshot" src="assets/photo.jpg" alt="Wei Wenxuan">
+        <h1>Wei Wenxuan</h1>
+        <p class="role">BSIT WMA Student · Mobile &amp; Web Developer</p>
+        <p class="contact-line">weiwenxuan59@gmail.com · github.com/andreweiiii · linkedin.com/in/wenxuan-wei-9150aa40a</p>
+      </div>
+
+      <div class="resume-cols">
+        <div class="resume-left">
+          <div class="resume-block">
+            <h3>About</h3>
+            <p class="rtext">IT student specializing in Web &amp; Mobile Application development. With my team, I built PicKape, an offline-first coffee quality and traceability system — from the Flutter mobile app to a Node.js API with SQLite, MySQL and Firebase. Looking for an internship where I can build real products and grow fast.</p>
+          </div>
+
+          <div class="resume-block">
+            <h3>Project</h3>
+            <div class="resume-item">
+              <p class="t">PicKape — Coffee Quality &amp; Traceability System</p>
+              <p class="m">Group capstone</p>
+              <p class="site"><a href="https://pickape.com" target="_blank" rel="noopener">pickape.com</a></p>
+              <ul>
+                <li>Flutter mobile app covering login, dashboard, batch management, and traceability.</li>
+                <li>Express REST API with bcrypt auth, image upload, and role flows.</li>
+                <li>Offline-first sync with a local SQLite store and a sync manager.</li>
+                <li>Live dashboard, QR batch scanning, and PQI quality sorting.</li>
+                <li>SQLite + MySQL storage with Firebase Admin for the backend.</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <p class="t">Deadline Tracker — Assignment &amp; Exam Reminder App</p>
+              <p class="m">Personal project</p>
+              <p class="site"><a href="deadline-tracker.html" target="_blank" rel="noopener">Open web demo</a></p>
+              <ul>
+                <li>Add assignments and exams with due dates, course names, and types.</li>
+                <li>Weekly view of everything due, sorted by deadline.</li>
+                <li>Local SQLite storage — works fully offline, no backend needed.</li>
+                <li>Scheduled reminder notifications before a deadline.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="resume-block">
+            <h3>Education</h3>
+            <div class="resume-item">
+              <p class="t">FEU Institute of Technology</p>
+              <p class="m">BS Information Technology — Web &amp; Mobile Application (WMA), in progress</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="resume-right">
+          <div class="resume-block">
+            <h3>Technical Skills</h3>
+            <ul>
+              <li>PHP, Java, Python, C / C++</li>
+              <li>JavaScript, HTML, CSS</li>
+              <li>Dart, SQL</li>
+              <li>UI / UX</li>
+            </ul>
+          </div>
+          <div class="resume-block">
+            <h3>Frameworks</h3>
+            <ul>
+              <li>Flutter, Node.js &amp; Express</li>
+              <li>CodeIgniter, Laravel, Spring</li>
+            </ul>
+          </div>
+          <div class="resume-block">
+            <h3>Data &amp; Deployment</h3>
+            <ul>
+              <li>MySQL, SQLite</li>
+              <li>Firebase Admin, AWS</li>
+              <li>Cloudflare, GitHub Pages</li>
+              <li>Git</li>
+            </ul>
+          </div>
+          <div class="resume-block" style="border-bottom:none">
+            <h3>Languages</h3>
+            <ul>
+              <li>English</li>
+              <li>Mandarin</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== view: contact ===== -->
+<section class="view" id="view-contact">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">Contact</p>
+      <h2>Let's talk about internships.</h2>
+      <p class="lead">I'm looking for an internship where I can build real mobile and web products and learn fast. Reach me through any channel below.</p>
+    </div>
+    <div class="contact-box">
+      <a class="social" href="https://github.com/andreweiiii" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" role="img"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+      </a>
+      <a class="social" href="https://www.linkedin.com/in/wenxuan-wei-9150aa40a" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" role="img"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S.02 4.88.02 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4v16h-4V8zm7 0h3.8v2.2h.05c.53-1 1.83-2.2 3.9-2.2 4.16 0 4.93 2.74 4.93 6.3V24h-4v-8.4c0-2-.05-4.6-2.8-4.6-2.8 0-3.2 2.2-3.2 4.4V24h-4V8z"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Wei Wenxuan</span>
+  </div>
+</footer>
+
+<script>
+var links = document.querySelectorAll('nav a');
+function route(){
+  var hash = location.hash.replace(/^#\/?/, '') || 'home';
+  var id = 'view-' + hash;
+  var views = document.querySelectorAll('.view');
+  views.forEach(function(v){ v.classList.toggle('active', v.id === id); });
+  links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#/' + hash); });
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>
