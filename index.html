@@ -118,9 +118,10 @@ a:hover .arrow-r{transform:translateX(3px)}
 .w-card .chips span{font-size:.78rem;border:1px solid var(--line);padding:3px 10px;color:var(--muted);background:var(--paper)}
 .w-card .go{font-size:.9rem;color:var(--accent);font-weight:500;display:inline-flex;gap:6px;align-items:center}
 .tool{display:grid;grid-template-columns:1fr;gap:0;margin-top:30px;border-top:1px solid var(--line)}
-.tool div{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);font-size:.95rem}
-.tool dt{color:var(--accent);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;padding-top:3px}
-.tool dd{color:var(--ink)}
+.tool div{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:14px 0;align-items:start;border-bottom:1px solid var(--line);font-size:.95rem}
+.tool dt{color:var(--accent);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;padding-top:6px}
+.tool dd{display:flex;flex-wrap:wrap;gap:6px 8px}
+.tool dd span{font-size:.86rem;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:3px 11px}
 .p-meta{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 18px}
 .p-meta span{font-size:.8rem;border:1px solid var(--line);background:var(--card);padding:4px 12px;color:var(--muted)}
 .p-meta span b{color:var(--ink);font-weight:500}
@@ -293,18 +294,21 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
 
     <section>
       <p class="eyebrow">About</p>
-      <h2>I like building apps that still work when conditions aren't ideal.</h2>
-      <p class="lead" style="max-width:64ch">My capstone, PicKape, started from a simple fact: coffee farms often have weak or no signal, so a cloud-only app would fail exactly where it's needed. That pushed me to think beyond screens — about local storage, sync, and what happens to data on its way from the phone to the server. Day to day I work with Flutter, Node.js and Express REST APIs, SQLite, MySQL and Firebase Admin. I'm looking for a software engineering internship where I can keep building mobile, web and backend products alongside an experienced team.</p>
+      <h2>I build mobile and web apps that are practical to use.</h2>
+      <p class="lead" style="max-width:64ch">I'm a BS Information Technology student at FEU Institute of Technology, specializing in Web and Mobile Application development. I like taking a real problem and turning it into an app people can actually use, whether that's a field app for coffee growers or a planner that keeps students on top of their deadlines. On mobile I work mostly in Flutter and Dart; on the web I've built with JavaScript, PHP, Laravel and CodeIgniter, backed by MySQL or SQLite. I care about clear, simple interfaces and apps that keep working when the connection doesn't. I'm looking for a software engineering internship where I can learn from an experienced team and contribute to real products.</p>
     </section>
 
     <section>
       <p class="eyebrow">Toolkit</p>
       <h2>What I work with</h2>
       <dl class="tool">
-        <div><dt>Mobile</dt><dd>Flutter, Dart</dd></div>
-        <div><dt>Backend</dt><dd>Node.js, Express, REST APIs, PHP, Laravel, CodeIgniter</dd></div>
-        <div><dt>Data</dt><dd>SQLite, MySQL, Firebase Admin</dd></div>
-        <div><dt>Also</dt><dd>JavaScript, HTML, CSS, Java, Python, Git, GitHub Pages</dd></div>
+        <div><dt>Mobile</dt><dd><span>Flutter</span><span>Dart</span><span>Kotlin</span><span>Swift</span><span>Offline-first apps</span></dd></div>
+        <div><dt>Web</dt><dd><span>JavaScript</span><span>HTML5</span><span>CSS3</span><span>SvelteKit</span><span>WordPress</span><span>UI / UX</span></dd></div>
+        <div><dt>Backend</dt><dd><span>Node.js</span><span>Express</span><span>PHP</span><span>Laravel</span><span>CodeIgniter</span><span>Java</span><span>Spring</span><span>Python</span><span>FastAPI</span><span>REST APIs</span></dd></div>
+        <div><dt>Data</dt><dd><span>MySQL</span><span>PostgreSQL</span><span>SQLite</span><span>Firebase Admin</span><span>Schema design</span></dd></div>
+        <div><dt>AI</dt><dd><span>RAG pipelines</span><span>Embeddings</span><span>Ollama</span><span>OpenAI API</span></dd></div>
+        <div><dt>Cloud &amp; deploy</dt><dd><span>AWS</span><span>Cloudflare Workers</span><span>Vercel</span><span>Render</span><span>Railway</span><span>GitHub Pages</span><span>cPanel</span></dd></div>
+        <div><dt>Also</dt><dd><span>C / C++</span><span>SQL</span><span>Git</span><span>GitHub</span></dd></div>
       </dl>
     </section>
   </div>
