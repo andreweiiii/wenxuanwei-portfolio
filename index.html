@@ -108,7 +108,8 @@ a:hover .arrow-r{transform:translateX(3px)}
 .portrait img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;filter:saturate(.92)}
 .portrait figcaption{display:flex;justify-content:space-between;gap:12px;font-size:.8rem;color:var(--muted);padding:12px 2px 2px}
 .portrait figcaption b{font-weight:500;color:var(--ink)}
-.work{display:grid;grid-template-columns:1fr;gap:16px;margin-top:30px}
+.work{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;margin-top:30px}
+.w-card .note{font-size:.78rem;color:var(--muted);font-style:italic}
 .w-card{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);background:var(--card);padding:26px;color:var(--ink);transition:border-color .2s,transform .2s,box-shadow .2s}
 .w-card:hover{text-decoration:none;border-color:#CDB79E;transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(36,27,20,.35)}
 .w-card .tag{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
@@ -208,7 +209,6 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
   .hero{padding:72px 0 64px}
   .tri{grid-template-columns:repeat(2,1fr)}
   .hero-grid{grid-template-columns:1.35fr .9fr;gap:64px}
-  .work{grid-template-columns:repeat(2,1fr)}
   .tool div{grid-template-columns:160px 1fr}
   .demo{grid-template-columns:auto 1fr;gap:44px;padding:36px 44px}
     nav ul{gap:22px}
@@ -288,6 +288,14 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
           <p>An offline planner for assignments and exams, with a weekly view sorted by due date and reminders before each deadline.</p>
           <div class="chips"><span>Local SQLite</span><span>Reminders</span><span>Offline</span></div>
           <span class="go">Open web demo <span class="arrow-r" aria-hidden="true">↗</span></span>
+        </a>
+        <a class="w-card" href="https://knowledge-hub-lm7l.onrender.com" target="_blank" rel="noopener">
+          <span class="tag">Personal project · AI</span>
+          <h3>Knowledge Hub</h3>
+          <p>Upload company documents and ask questions in plain English. It finds the most relevant passages and answers only from them, citing each source.</p>
+          <small class="note">Free hosting: the first load can take about a minute.</small>
+          <div class="chips"><span>Python</span><span>FastAPI</span><span>RAG</span><span>SQLite</span></div>
+          <span class="go">Open live demo <span class="arrow-r" aria-hidden="true">↗</span></span>
         </a>
       </div>
     </section>
