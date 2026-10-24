@@ -459,33 +459,43 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
         <div class="resume-left">
           <div class="resume-block">
             <h3>About</h3>
-            <p class="rtext">IT student specializing in Web &amp; Mobile Application development. With my team, I built PicKape, an offline-first coffee quality and traceability system — from the Flutter mobile app to a Node.js API with SQLite, MySQL and Firebase. Looking for an internship where I can build real products and grow fast.</p>
+            <p class="rtext">IT student specializing in Web &amp; Mobile Application development. I build practical mobile and web apps: Flutter apps that keep working offline, PHP and JavaScript web systems, and a Python/FastAPI document Q&amp;A service that uses retrieval-augmented generation (RAG). Looking for a software engineering internship where I can learn from an experienced team and contribute to real products.</p>
           </div>
 
           <div class="resume-block">
-            <h3>Project</h3>
+            <h3>Projects</h3>
             <div class="resume-item">
               <p class="t">PicKape — Coffee Quality &amp; Traceability System</p>
               <p class="m">Group capstone · My role: mobile developer (Flutter)</p>
-              <p class="site"><a href="https://pickape.com" target="_blank" rel="noopener">pickape.com</a></p>
+              <p class="site"><a href="https://pickape.com" target="_blank" rel="noopener">pickape.com</a> · <a href="#/project">Mobile demo video</a></p>
               <ul>
-                <li>Flutter mobile app covering login, dashboard, batch management, and traceability.</li>
-                <li>Express REST API with bcrypt auth, image upload, and role flows.</li>
-                <li>Offline-first sync with a local SQLite store and a sync manager.</li>
-                <li>Live dashboard, QR batch scanning, and PQI quality sorting.</li>
-                <li>SQLite + MySQL storage with Firebase Admin for the backend.</li>
+                <li>Built the Flutter app screens for login, the live dashboard, batch management, and farm-to-harvest traceability.</li>
+                <li>Implemented the offline-first layer on the phone: a local SQLite store and a sync manager that pushes and pulls batches through the REST API when the network returns.</li>
+                <li>Built QR batch scanning with the phone camera, linking each scan to its batch record.</li>
+                <li>Integrated the app with the team's Express API for authentication, image upload, and role-based flows.</li>
+              </ul>
+            </div>
+
+            <div class="resume-item">
+              <p class="t">Knowledge Hub — Document Q&amp;A with RAG</p>
+              <p class="m">Personal project · Python, FastAPI, SQLite</p>
+              <p class="site"><a href="https://knowledge-hub-lm7l.onrender.com" target="_blank" rel="noopener">Live demo</a> · <a href="https://github.com/andreweiiii/knowledge-hub" target="_blank" rel="noopener">Source</a></p>
+              <ul>
+                <li>Indexes PDF, Word, and Markdown files and answers questions only from retrieved passages, with [S1]-style source citations and a confidence score.</li>
+                <li>Works with Ollama, OpenAI, or any OpenAI-compatible API; tracks which embedding model produced each vector and falls back to BM25 keyword search when the model is unavailable.</li>
+                <li>Public demo mode with per-IP rate limits, upload caps, and private history per visitor; 23 automated tests.</li>
               </ul>
             </div>
 
             <div class="resume-item">
               <p class="t">Deadline Tracker — Assignment &amp; Exam Reminder App</p>
-              <p class="m">Personal project</p>
+              <p class="m">Personal project · Offline productivity app</p>
               <p class="site"><a href="deadline-tracker.html" target="_blank" rel="noopener">Open web demo</a></p>
               <ul>
-                <li>Add assignments and exams with due dates, course names, and types.</li>
-                <li>Weekly view of everything due, sorted by deadline.</li>
-                <li>Local SQLite storage — works fully offline, no backend needed.</li>
-                <li>Scheduled reminder notifications before a deadline.</li>
+                <li>Tracks assignments and exams with courses, types, priorities, a weekly strip, and a month calendar.</li>
+                <li>Reminds you before each deadline, once per item, through the browser's notifications.</li>
+                <li>Works offline and installs to a phone's home screen; data stays on the device with JSON backup and restore.</li>
+                <li>Imports assignments from a Canvas calendar (.ics) feed.</li>
               </ul>
             </div>
           </div>
@@ -494,42 +504,53 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
             <h3>Education</h3>
             <div class="resume-item">
               <p class="t">FEU Institute of Technology</p>
-              <p class="m">BS Information Technology — Web &amp; Mobile Application (WMA), in progress</p>
+              <p class="m">BS Information Technology — Web &amp; Mobile Application (WMA)</p>
+              <p class="rtext">Expected graduation: August 2027</p>
             </div>
           </div>
         </div>
 
         <div class="resume-right">
           <div class="resume-block">
-            <h3>Technical Skills</h3>
+            <h3>Languages &amp; Tools</h3>
             <ul>
-              <li>PHP, Java, Python, C / C++</li>
-              <li>JavaScript, HTML, CSS</li>
-              <li>Dart, SQL</li>
-              <li>UI / UX</li>
+              <li>Dart, Kotlin, Swift</li>
+              <li>JavaScript, HTML5, CSS3</li>
+              <li>PHP, Java, Python, C / C++, SQL</li>
+              <li>Git, GitHub, UI / UX</li>
             </ul>
           </div>
           <div class="resume-block">
             <h3>Frameworks</h3>
             <ul>
-              <li>Flutter, Node.js &amp; Express</li>
-              <li>CodeIgniter, Laravel, Spring</li>
+              <li>Flutter</li>
+              <li>Node.js, Express, FastAPI</li>
+              <li>Laravel, CodeIgniter, Spring</li>
+              <li>SvelteKit, WordPress</li>
             </ul>
           </div>
           <div class="resume-block">
-            <h3>Data &amp; Deployment</h3>
+            <h3>Data &amp; AI</h3>
             <ul>
-              <li>MySQL, SQLite</li>
-              <li>Firebase Admin, AWS</li>
-              <li>Cloudflare, GitHub Pages</li>
-              <li>Git</li>
+              <li>MySQL, PostgreSQL, SQLite</li>
+              <li>Firebase Admin, schema design</li>
+              <li>RAG, embeddings, semantic search</li>
+              <li>Ollama, OpenAI-compatible APIs</li>
+            </ul>
+          </div>
+          <div class="resume-block">
+            <h3>Cloud &amp; Deploy</h3>
+            <ul>
+              <li>AWS, Cloudflare Workers</li>
+              <li>Vercel, Render, Railway</li>
+              <li>GitHub Pages, cPanel</li>
             </ul>
           </div>
           <div class="resume-block" style="border-bottom:none">
-            <h3>Languages</h3>
+            <h3>Spoken Languages</h3>
             <ul>
+              <li>Mandarin Chinese (native)</li>
               <li>English</li>
-              <li>Mandarin</li>
             </ul>
           </div>
         </div>
