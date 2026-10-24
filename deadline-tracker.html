@@ -5,7 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deadline Tracker</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%239A5B2E'/%3E%3Cpath d='M7 3v4M17 3v4M4 9h16M6 5h12a2 2 0 0 1 2 2v13H4V7a2 2 0 0 1 2-2Z' fill='none' stroke='%23FDFBF6' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Libre+Baskerville:ital,wght@0,400;0,600;1,400&family=Work+Sans:wght@300;400;500;600&display=swap">
+<meta name="description" content="Track assignments and exams, see the week at a glance, and get reminded before things are due. Works offline.">
+<meta name="theme-color" content="#9A5B2E">
+<link rel="manifest" href="deadline-tracker.webmanifest">
+<link rel="apple-touch-icon" href="assets/deadline-icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://miaoda.feishu.cn/fonts/css2?family=Libre+Baskerville:ital,wght@0,400;0,600;1,400&family=Work+Sans:wght@300;400;500;600&display=swap">
 <style>
 :root{
   --paper:#FDFBF6; --card:#FFFFFF; --ink:#2B2B28; --muted:#8A867C;
@@ -105,7 +111,7 @@ html[data-theme=dark] .item.over{border-color:#5A3A32}
 .tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center}
 .tag{font-size:.7rem;border-radius:999px;padding:2px 9px;font-weight:500}
 .tag.prio{color:#fff}
-.tag.prio.high{background:var(--red)} .tag.prio.med{background:var(--accent)} .tag.prio.low{background:var(--green)}
+.tag.prio.high{background:var(--red)} .tag.prio.med,.tag.prio.medium{background:var(--accent)} .tag.prio.low{background:var(--green)}
 .tag.due{color:var(--muted);border:1px solid var(--line);background:var(--paper)}
 .tag.due.over{color:var(--red);border-color:#E4C3B8;background:#F7E7E0}
 html[data-theme=dark] .tag.due.over{border-color:#5A3A32;background:#35241F}
@@ -118,6 +124,17 @@ html[data-theme=dark] .tag.due.today{border-color:#5A4A2C;background:#352B1A}
 html[data-theme=dark] .icon-btn.sm:hover{background:#35241F}
 .empty{text-align:center;color:var(--muted);padding:48px 0;border:1px dashed var(--line);border-radius:12px}
 .empty .plus{font-size:1.5rem;color:var(--accent)}
+.empty .sample{margin-top:14px;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:9px;padding:9px 16px;font-family:var(--sans);font-size:.9rem;cursor:pointer}
+.empty .sample:hover{background:var(--accent);color:#fff}
+.icon-btn.on{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.item .body{cursor:pointer;border-radius:6px}
+.item .body:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.field input.invalid{border-color:var(--red)}
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}
+.foot a{color:var(--accent);text-decoration:none}
+.foot a:hover{text-decoration:underline}
+.offline-pill{display:none;font-size:.72rem;border:1px solid var(--line);border-radius:999px;padding:2px 9px;color:var(--muted)}
+body.offline .offline-pill{display:inline-block}
 .fab{position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;border:0;background:var(--accent);color:#fff;font-family:var(--sans);font-size:1.8rem;line-height:1;cursor:pointer;box-shadow:0 8px 24px rgba(154,91,46,.32)}
 .fab:hover{background:#8A4F26}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:12px;font-size:.9rem;display:flex;align-items:center;gap:14px;opacity:0;pointer-events:none;transition:all .25s;z-index:30;box-shadow:0 8px 24px rgba(0,0,0,.25)}
@@ -164,7 +181,7 @@ html[data-theme=dark] .cv-status.new{background:#243023;border-color:#3A4A38}
 <body>
 <div class="wrap">
   <header>
-    <span class="brand">Deadline Tracker</span>
+    <span class="brand">Deadline Tracker <span class="offline-pill">Offline</span></span>
     <div class="filters">
       <button id="fAll" class="on" onclick="setView('all')">All</button>
       <button id="fWeek" onclick="setView('week')">This week</button>
@@ -229,16 +246,17 @@ html[data-theme=dark] .cv-status.new{background:#243023;border-color:#3A4A38}
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8M13.7 21a2 2 0 0 1-3.4 0"/></svg>
     </button>
     <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme" id="themeBtn"></button>
-    <button class="icon-btn" onclick="exportJson()" title="Export backup" aria-label="Export">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0-12L8 7m4-4 4 4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+    <button class="icon-btn" onclick="exportJson()" title="Export backup" aria-label="Export backup">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
     </button>
-    <button class="icon-btn" onclick="askImport()" title="Import backup" aria-label="Import">
+    <button class="icon-btn" onclick="askImport()" title="Import backup" aria-label="Import backup">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L8 7m4-4 4 4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
     </button>
   </div>
 
   <div id="groups"></div>
-  <div class="empty hidden" id="empty"><div class="plus">+</div><p>Nothing here yet.<br>Tap the + button to add a deadline.</p></div>
+  <div class="empty hidden" id="empty"><div class="plus">+</div><p id="emptyText">Nothing here yet.<br>Tap the + button to add a deadline.</p><button class="sample hidden" id="sampleBtn" onclick="loadSample()">Try it with sample deadlines</button></div>
+  <footer class="foot"><span>Your deadlines stay in this browser and work offline. Press <b>N</b> to add, <b>/</b> to search.</span><span>Built by <a href="https://wenxuanwei.com" target="_blank" rel="noopener">Wei Wenxuan</a></span></footer>
 </div>
 
 <button class="fab" onclick="openAdd()" aria-label="Add deadline">+</button>
@@ -248,7 +266,7 @@ html[data-theme=dark] .cv-status.new{background:#243023;border-color:#3A4A38}
 <div class="modal-back hidden" id="modal">
   <div class="sheet">
     <h2 id="mTitle">New Deadline</h2>
-    <div class="field"><label>Title</label><input id="tTitle" placeholder="e.g. Math Quiz 3"></div>
+    <div class="field"><label for="tTitle">Title</label><input id="tTitle" placeholder="e.g. Math Quiz 3" maxlength="120"></div>
     <div class="field"><label>Course</label><input id="tCourse" placeholder="e.g. CS 204"></div>
     <div class="row">
       <div class="field"><label>Type</label>
@@ -259,7 +277,7 @@ html[data-theme=dark] .cv-status.new{background:#243023;border-color:#3A4A38}
       </div>
     </div>
     <div class="row">
-      <div class="field"><label>Due date</label><input id="tDate" type="date"></div>
+      <div class="field"><label for="tDate">Due date</label><input id="tDate" type="date" required></div>
       <div class="field"><label>Time</label><input id="tTime" type="time"></div>
     </div>
     <div class="field"><label>Remind me before</label>
@@ -334,23 +352,28 @@ const pad=n=>String(n).padStart(2,'0');
 const DAY=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
+let idSeq=0;
+function newId(){idSeq=Math.max(idSeq+1,Date.now());return idSeq}
 function load(){
   try{state=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){state=[]}
   state=state.map(it=>({
-    id:it.id||Date.now(),title:it.title||'',course:it.course||'General',type:it.type||'Assignment',
+    id:Number(it.id)||newId(),title:it.title||'',course:it.course||'General',type:it.type||'Assignment',
     priority:it.priority||'Medium',notes:it.notes||'',repeat:it.repeat||'',
     remind:Number(it.remind)||0,uid:it.uid||'',
     due:it.due,done:!!it.done,
     createdAt:it.createdAt||new Date().toISOString(),
     modifiedAt:it.modifiedAt||null,
     completedAt:it.completedAt||null
-  })).filter(it=>it.title&&it.due);
+    ,nextId:it.nextId||null,notified:it.notified||null
+  })).filter(it=>it.title&&it.due&&!isNaN(new Date(it.due)));
+  const seen=new Set();state.forEach(it=>{if(seen.has(it.id))it.id=newId();seen.add(it.id)});
   localStorage.setItem(SCH,'2');
 }
-function persist(){localStorage.setItem(KEY,JSON.stringify(state))}
-function applyTheme(){document.documentElement.setAttribute('data-theme',localStorage.getItem('dt_theme')||'light');
-  $('#themeBtn').innerHTML=(localStorage.getItem('dt_theme')==='dark')?sunI():moonI()}
-function toggleTheme(){localStorage.setItem('dt_theme',localStorage.getItem('dt_theme')==='dark'?'light':'dark');applyTheme()}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){toastMsg('Could not save: browser storage is full or blocked.')}}
+function currentTheme(){return localStorage.getItem('dt_theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
+function applyTheme(){const t=currentTheme();document.documentElement.setAttribute('data-theme',t);
+  $('#themeBtn').innerHTML=t==='dark'?sunI():moonI()}
+function toggleTheme(){localStorage.setItem('dt_theme',currentTheme()==='dark'?'light':'dark');applyTheme()}
 function moonI(){return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>'}
 function sunI(){return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'}
 function dismissNote(){localStorage.setItem('dt_hide_note','1');$('#note').classList.add('hidden')}
@@ -480,9 +503,12 @@ function renderGroups(){
     });
   }
   $('#empty').classList.toggle('hidden',any);
+  const fresh=!state.length;
+  $('#sampleBtn').classList.toggle('hidden',!fresh);
+  $('#emptyText').innerHTML=fresh?'Nothing here yet.<br>Tap the + button to add a deadline, or load some examples to see how it works.':(q||dayFilter?'No deadlines match this filter.':view==='done'?'Nothing completed yet.':'Nothing due. Enjoy the break.');
 }
 function groupHtml(title,items,withDone){
-  const meta=withDone?'<span>'+items.length+'</span>':items.length+'';
+  const meta='<span>'+items.length+'</span>';
   return '<div class="group"><h3>'+title+meta+'</h3><div class="list">'+items.map(card).join('')+'</div></div>';
 }
 
@@ -496,10 +522,10 @@ function card(it){
   const tagCls=over?'over':today?'today':remind?'remind':'';
   const flag=(it.priority==='High'&&!it.done)?'<span class="pflag"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2v20M6 4l13-1v11L6 13"/></svg></span>':'';
   return '<div class="item '+cls+'">'+
-    '<button class="chk'+(it.done?' done':'')+'" onclick="toggle('+it.id+')" aria-label="Mark done">'+
+    '<button class="chk'+(it.done?' done':'')+'" onclick="toggle('+it.id+')" aria-label="'+(it.done?'Mark not done':'Mark done')+': '+esc(it.title)+'">'+
       '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 7"/></svg>'+
     '</button>'+
-    '<div class="body" onclick="openDetail('+it.id+')"><p class="t">'+flag+esc(it.title)+'</p>'+
+    '<div class="body" role="button" tabindex="0" onclick="openDetail('+it.id+')" onkeydown="if(event.key===\'Enter\')openDetail('+it.id+')"><p class="t">'+flag+esc(it.title)+'</p>'+
     '<p class="meta">'+(it.course&&it.course!=='General'?'<span class="cdot" style="background:'+courseColor(it.course)+'"></span>':'')+esc(it.course||'General')+' · '+esc(it.type)+'</p>'+
     '<div class="tags"><span class="tag prio '+it.priority.toLowerCase()+'">'+it.priority+'</span><span class="tag due '+tagCls+'">'+tag+'</span>'+
       (remindHours(it)>0?'<span class="tag due">Remind '+remindLabel(it)+' before</span>':'')+
@@ -510,7 +536,7 @@ function card(it){
       '<button class="icon-btn sm" onclick="del('+it.id+')" aria-label="Delete"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button>'+
     '</div></div>';
 }
-function remindLabel(it){const h=remindHours(it);return h>=24?(h/24)+' day':h+'h'}
+function remindLabel(it){const h=remindHours(it),d=h/24;return h>=24?d+(d===1?' day':' days'):h+'h'}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
 function render(){renderStats();renderStrip();calRender();renderGroups()}
@@ -544,21 +570,34 @@ function showModal(){$('#modal').classList.remove('hidden');setTimeout(()=>$('#t
 function closeAdd(){$('#modal').classList.add('hidden')}
 
 function save(){
-  const title=$('#tTitle').value.trim();if(!title){$('#tTitle').focus();return}
+  const title=$('#tTitle').value.trim();if(!title){$('#tTitle').classList.add('invalid');$('#tTitle').focus();return}
   const date=$('#tDate').value,time=$('#tTime').value||'23:59';
   const due=new Date(date+'T'+time);
+  if(!date||isNaN(due)){$('#tDate').classList.add('invalid');$('#tDate').focus();return}
+  $('#tTitle').classList.remove('invalid');$('#tDate').classList.remove('invalid');
   const data={title:title,course:$('#tCourse').value.trim(),type:$('#tType').value,priority:$('#tPrio').value,notes:$('#tNotes').value.trim(),repeat:$('#tRepeat').checked?'weekly':'',remind:Number($('#tRemind').value)||0,due:due.toISOString()};
-  if(editing===null){state.push(Object.assign({id:Date.now(),done:false,createdAt:new Date().toISOString(),modifiedAt:null,completedAt:null},data))}
-  else{const it=state.find(x=>x.id===editing);Object.assign(it,data);it.modifiedAt=new Date().toISOString()}
+  if(editing===null){state.push(Object.assign({id:newId(),done:false,createdAt:new Date().toISOString(),modifiedAt:null,completedAt:null,nextId:null,notified:null},data))}
+  else{const it=state.find(x=>x.id===editing);if(it.due!==data.due||it.remind!==data.remind)it.notified=null;Object.assign(it,data);it.modifiedAt=new Date().toISOString()}
+  checkReminders();
   persist();render();closeAdd();
 }
 function toggle(id){
   const it=state.find(x=>x.id===id);if(!it)return;
   it.done=!it.done;
-  if(it.done){it.completedAt=new Date().toISOString();if(it.repeat==='weekly'){
-    const nextDue=new Date(new Date(it.due).getTime()+7*86400000);
-    state.push({id:Date.now(),title:it.title,course:it.course,type:it.type,priority:it.priority,notes:it.notes,repeat:'weekly',remind:remindHours(it),due:nextDue.toISOString(),done:false,createdAt:new Date().toISOString(),modifiedAt:null,completedAt:null});
-  }}else{it.completedAt=null;it.modifiedAt=new Date().toISOString()}
+  if(it.done){
+    it.completedAt=new Date().toISOString();
+    if(it.repeat==='weekly'&&!state.some(x=>x.id===it.nextId)){
+      const d=new Date(it.due);d.setDate(d.getDate()+7);  // keeps the same local time across daylight-saving changes
+      const next={id:newId(),title:it.title,course:it.course,type:it.type,priority:it.priority,notes:it.notes,repeat:'weekly',remind:remindHours(it),uid:'',due:d.toISOString(),done:false,createdAt:new Date().toISOString(),modifiedAt:null,completedAt:null,nextId:null,notified:null};
+      state.push(next);it.nextId=next.id;
+      toastMsg('Done. Next one added for '+fmtAbs(d)+'.');
+    }
+  }else{
+    it.completedAt=null;it.modifiedAt=new Date().toISOString();
+    // Un-checking by mistake removes the copy that was just created, if it hasn't been touched.
+    const nx=state.find(x=>x.id===it.nextId);
+    if(nx&&!nx.done&&!nx.modifiedAt){state=state.filter(x=>x!==nx);it.nextId=null}
+  }
   persist();render();
 }
 function del(id){
@@ -598,7 +637,7 @@ function detailEdit(){const id=detailId;closeDetail();if(id!=null)openEdit(id)}
 
 function exportJson(){
   const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='deadline-backup.json';a.click();URL.revokeObjectURL(a.href);
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='deadline-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toastMsg('Backup saved ('+state.length+' deadlines).');
 }
 function askImport(){pendingFile=null;const i=document.createElement('input');i.type='file';i.accept='application/json';i.style.display='none';document.body.appendChild(i);i.onchange=()=>{onFileChosen(i);i.remove()};i.click()}
 function onFileChosen(input){
@@ -606,7 +645,7 @@ function onFileChosen(input){
   const r=new FileReader();
   r.onload=()=>{
     try{const arr=JSON.parse(r.result);
-      if(Array.isArray(arr)&&arr.every(it=>it&&it.title&&it.due)){pendingFile=arr;$('#impInfo').textContent=arr.length+' valid deadlines found. Merge adds them without removing what you have. Replace clears your current data first.';$('#impModal').classList.remove('hidden')}
+      if(Array.isArray(arr)&&arr.length&&arr.every(it=>it&&it.title&&it.due&&!isNaN(new Date(it.due)))){pendingFile=arr;$('#impInfo').textContent=arr.length+' valid deadlines found. Merge adds them without removing what you have. Replace clears your current data first.';$('#impModal').classList.remove('hidden')}
       else{$('#impInfo').textContent='This file is not a valid Deadline Tracker backup.';$('#impModal').classList.remove('hidden')}
     }catch(e){$('#impInfo').textContent='This file is not a valid Deadline Tracker backup.';$('#impModal').classList.remove('hidden')}
     input.value='';
@@ -618,11 +657,12 @@ function doImport(mode){
   const incoming=pendingFile.map(normalizeItem);
   if(mode==='replace')state=incoming;
   else{const ids=new Set(state.map(it=>it.id));incoming.forEach(it=>{if(!ids.has(it.id)){state.push(it);ids.add(it.id)}})}
-  pendingFile=null;persist();render();closeImport();
+  const seen=new Set();state.forEach(it=>{if(seen.has(it.id))it.id=newId();seen.add(it.id)});
+  pendingFile=null;persist();render();closeImport();toastMsg('Backup imported.');
 }
 function normalizeItem(it){
   const o=Object.assign({course:'General',type:'Assignment',priority:'Medium',notes:'',repeat:'',remind:0,done:false,createdAt:new Date().toISOString(),modifiedAt:null,completedAt:null},it);
-  return {id:o.id||Date.now(),title:o.title,course:o.course,type:o.type,priority:o.priority,notes:o.notes,repeat:o.repeat||'',remind:Number(o.remind)||0,uid:o.uid||'',due:o.due,done:!!o.done,createdAt:o.createdAt,modifiedAt:o.modifiedAt||null,completedAt:o.completedAt||null};
+  return {id:Number(o.id)||newId(),title:o.title,course:o.course,type:o.type,priority:o.priority,notes:o.notes,repeat:o.repeat||'',remind:Number(o.remind)||0,uid:o.uid||'',due:o.due,done:!!o.done,createdAt:o.createdAt,modifiedAt:o.modifiedAt||null,completedAt:o.completedAt||null,nextId:o.nextId||null,notified:o.notified||null};
 }
 function closeImport(){$('#impModal').classList.add('hidden')}
 
@@ -707,9 +747,9 @@ function confirmCanvas(){
     if(!ev.selected)return;
     const ex=state.find(it=>it.uid&&it.uid===ev.uid);
     if(ex){
-      ex.title=ev.title;ex.due=ev.due;ex.notes=ev.notes;ex.modifiedAt=new Date().toISOString();updated++;
+      if(ex.due!==new Date(ev.due).toISOString())ex.notified=null;ex.title=ev.title;ex.due=new Date(ev.due).toISOString();ex.notes=ev.notes;ex.modifiedAt=new Date().toISOString();updated++;
     }else{
-      state.push({id:Date.now()+Math.random(),title:ev.title,course:course||'General',type:type,priority:prio,notes:ev.notes,repeat:'',remind:0,uid:ev.uid,due:ev.due,done:false,createdAt:new Date().toISOString(),modifiedAt:null,completedAt:null});added++;
+      state.push({id:newId(),title:ev.title,course:course||'General',type:type,priority:prio,notes:ev.notes,repeat:'',remind:0,uid:ev.uid,due:new Date(ev.due).toISOString(),done:false,createdAt:new Date().toISOString(),modifiedAt:null,completedAt:null,nextId:null,notified:null});added++;
     }
   });
   canvasData=null;persist();render();closeCanvas();
@@ -720,15 +760,45 @@ function toastMsg(m){
 }
 function closeCanvas(){$('#canvasModal').classList.add('hidden');canvasData=null}
 
+function syncBell(){const on='Notification' in window&&Notification.permission==='granted';$('#bellBtn').classList.toggle('on',on);$('#bellBtn').title=on?'Reminders are on':'Turn on reminders'}
 function askNotify(){
-  if(!('Notification' in window))return;
-  Notification.requestPermission().then(perm=>{if(perm==='granted'){try{notifySoon()}catch(e){}}});
+  if(!('Notification' in window)){toastMsg('This browser can\'t show notifications. Reminders will appear here while the page is open.');return}
+  if(Notification.permission==='denied'){toastMsg('Notifications are blocked. Allow them in your browser\'s site settings.');return}
+  Notification.requestPermission().then(perm=>{syncBell();toastMsg(perm==='granted'?'Reminders are on.':'Reminders will appear here while the page is open.');checkReminders()});
 }
-function notifySoon(){
-  const soon=active().filter(inRemindWindow);
-  if(soon.length&&'Notification' in window&&Notification.permission==='granted'){
-    try{new Notification('Deadline Tracker',{body:soon.map(it=>it.title+' ('+relDue(new Date(it.due))+')').join('\n')})}catch(e){}
+async function showReminder(title,body,tag){
+  if('Notification' in window&&Notification.permission==='granted'){
+    try{
+      // Android Chrome only allows notifications through a service worker.
+      const reg=navigator.serviceWorker&&await navigator.serviceWorker.getRegistration();
+      if(reg){await reg.showNotification(title,{body,tag,icon:'assets/deadline-icon-192.png'});return}
+      new Notification(title,{body,tag});return;
+    }catch(e){}
   }
+  toastMsg('<b>'+esc(title)+'</b>&nbsp;'+esc(body));
+}
+// Runs every minute: each deadline is announced once when it enters its reminder window.
+function checkReminders(){
+  let changed=false;
+  active().filter(inRemindWindow).forEach(it=>{
+    if(it.notified===it.due)return;
+    it.notified=it.due;changed=true;
+    showReminder('Due '+relDue(new Date(it.due)).replace(/^Due /,'').toLowerCase()+': '+it.title,(it.course&&it.course!=='General'?it.course+' · ':'')+fmtAbs(new Date(it.due)),'dt-'+it.id);
+  });
+  if(changed)persist();
+}
+
+const SAMPLE=[['Database Systems','Exam','High',2,'09:00','Midterm: normalization, joins, indexing',24],
+  ['Mobile Dev','Project','High',5,'23:59','Flutter app demo + repo link',48],['Web Dev','Assignment','Medium',1,'23:59','Responsive landing page',6],
+  ['Statistics','Assignment','Low',-1,'17:00','Problem set 4',0],['Mobile Dev','Lab','Medium',9,'13:00','Lab 6: local storage',24],
+  ['Technical Writing','Paper','Medium',15,'23:59','Research proposal draft',48]];
+function loadSample(){
+  const base=startOfDay(new Date());
+  SAMPLE.forEach(([course,type,priority,days,time,title,remind])=>{
+    const [h,m]=time.split(':').map(Number);const d=new Date(base);d.setDate(d.getDate()+days);d.setHours(h,m);
+    state.push({id:newId(),title,course,type,priority,notes:'',repeat:type==='Lab'?'weekly':'',remind,uid:'',due:d.toISOString(),done:false,createdAt:new Date().toISOString(),modifiedAt:null,completedAt:null,nextId:null,notified:null});
+  });
+  persist();render();toastMsg('Sample deadlines added. Delete them anytime.');
 }
 
 $('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeAdd()});
@@ -742,7 +812,13 @@ document.addEventListener('keydown',e=>{
   if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(t)){e.preventDefault();$('#q').focus()}
 });
 if(localStorage.getItem('dt_hide_note')!=='1')$('#note').classList.remove('hidden');
-applyTheme();load();render();notifySoon();
+applyTheme();load();render();syncBell();checkReminders();
+setInterval(()=>{checkReminders();render()},60000);  // keeps "due in" labels and reminders current
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){render();checkReminders()}});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme);
+function syncOnline(){document.body.classList.toggle('offline',!navigator.onLine)}
+addEventListener('online',syncOnline);addEventListener('offline',syncOnline);syncOnline();
+if('serviceWorker' in navigator&&location.protocol!=='file:'){navigator.serviceWorker.register('deadline-sw.js',{scope:'./deadline-tracker'}).catch(()=>{})}
 </script>
 </body>
 </html>
