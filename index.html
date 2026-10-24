@@ -24,6 +24,8 @@
   --accent:#9A5B2E;
   --line:#E3DBCE;
   --panel:#EFE9DF;
+  --accent-deep:#7A4522;
+  --card:#FFFDF9;
   --serif:"Libre Baskerville",Georgia,"Times New Roman",serif;
   --sans:"Work Sans","Segoe UI",system-ui,-apple-system,sans-serif;
 }
@@ -39,13 +41,17 @@ body{
 }
 .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
 a{color:var(--accent);text-decoration:none}
+::selection{background:#E8D3BF;color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 a:hover{text-decoration:underline}
 .view{display:none}
-.view.active{display:block}
+.view.active{display:block;animation:viewIn .45s ease both}
+@keyframes viewIn{from{opacity:.001;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.view.active{animation:none}*{transition:none!important}}
 .page-top{height:84px}
 section{padding:72px 0;border-top:1px solid var(--line)}
 section:first-of-type{border-top:none}
-section.view{border-top:none}
+section.view{border-top:none;padding-top:40px}
 .eyebrow{
   font-family:var(--sans);
   font-size:12px;
@@ -53,8 +59,11 @@ section.view{border-top:none}
   color:var(--accent);
   text-transform:uppercase;
   margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
 }
-h1,h2,h3,h4{font-family:var(--serif);font-weight:400;line-height:1.2}
+.eyebrow::before{content:"";width:22px;height:1px;background:currentColor;opacity:.7}
+.center .eyebrow{justify-content:center}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;line-height:1.2;text-wrap:balance}
 h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin-bottom:18px}
 .lead{font-size:clamp(1rem,2vw,1.15rem);color:var(--muted);max-width:52ch}
 .center{text-align:center}
@@ -68,7 +77,10 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:6
 nav ul{list-style:none;display:flex;gap:14px}
 nav a{color:var(--muted);font-size:.85rem;white-space:nowrap}
 nav a:hover{color:var(--accent);text-decoration:none}
-nav a.active{color:var(--accent);font-weight:600}
+nav ul a{position:relative;padding:4px 0;transition:color .2s}
+nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1.5px;background:var(--accent);transform:scaleX(0);transition:transform .25s ease;transform-origin:left}
+nav ul a:hover::after,nav ul a.active::after{transform:scaleX(1)}
+nav ul a.active{color:var(--accent);font-weight:600}
 
 /* ---------- hero ---------- */
 .hero{padding:64px 0 56px;border-top:none}
@@ -80,9 +92,41 @@ nav a.active{color:var(--accent);font-weight:600}
 .hero .meta span{display:inline-flex;align-items:center;gap:8px}
 .hero .meta svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.6}
 .hero-cta{margin-top:40px;display:flex;flex-wrap:wrap;gap:14px}
-.btn{display:inline-block;border:1px solid var(--accent);color:var(--accent);padding:12px 24px;font-size:.95rem}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--accent);color:var(--accent);padding:12px 24px;font-size:.95rem;border-radius:2px;transition:background .2s,color .2s,border-color .2s,transform .2s}
 .btn.solid{background:var(--accent);color:var(--paper)}
-.btn:hover{text-decoration:none;opacity:.9}
+.btn:hover{text-decoration:none;background:var(--accent);color:var(--paper);transform:translateY(-1px)}
+.btn.solid:hover{background:var(--accent-deep);border-color:var(--accent-deep)}
+.arrow-r{transition:transform .2s}
+a:hover .arrow-r{transform:translateX(3px)}
+
+.hero-grid{display:grid;grid-template-columns:1fr;gap:44px;align-items:center}
+.status{display:inline-flex;align-items:center;gap:9px;font-size:.85rem;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 12px;margin-bottom:26px}
+.status i{width:8px;height:8px;border-radius:50%;background:#4F7A4A;box-shadow:0 0 0 4px rgba(79,122,74,.15)}
+.portrait{position:relative;max-width:340px;width:100%;justify-self:center}
+.portrait .frame{position:relative;border:1px solid var(--line);background:var(--card);padding:12px}
+.portrait .frame::before{content:"";position:absolute;inset:18px -14px -14px 18px;border:1px solid var(--accent);opacity:.35;z-index:-1}
+.portrait img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;filter:saturate(.92)}
+.portrait figcaption{display:flex;justify-content:space-between;gap:12px;font-size:.8rem;color:var(--muted);padding:12px 2px 2px}
+.portrait figcaption b{font-weight:500;color:var(--ink)}
+.work{display:grid;grid-template-columns:1fr;gap:16px;margin-top:30px}
+.w-card{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);background:var(--card);padding:26px;color:var(--ink);transition:border-color .2s,transform .2s,box-shadow .2s}
+.w-card:hover{text-decoration:none;border-color:#CDB79E;transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(36,27,20,.35)}
+.w-card .tag{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.w-card h3{font-size:1.25rem}
+.w-card p{font-size:.93rem;color:var(--muted)}
+.w-card .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.w-card .chips span{font-size:.78rem;border:1px solid var(--line);padding:3px 10px;color:var(--muted);background:var(--paper)}
+.w-card .go{font-size:.9rem;color:var(--accent);font-weight:500;display:inline-flex;gap:6px;align-items:center}
+.tool{display:grid;grid-template-columns:1fr;gap:0;margin-top:30px;border-top:1px solid var(--line)}
+.tool div{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.tool dt{color:var(--accent);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;padding-top:3px}
+.tool dd{color:var(--ink)}
+.p-meta{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 18px}
+.p-meta span{font-size:.8rem;border:1px solid var(--line);background:var(--card);padding:4px 12px;color:var(--muted)}
+.p-meta span b{color:var(--ink);font-weight:500}
+footer .links{display:flex;flex-wrap:wrap;gap:8px 20px}
+footer .links a{color:var(--muted)}
+footer .links a:hover{color:var(--accent)}
 
 /* ---------- project ---------- */
 .tri{display:grid;grid-template-columns:1fr;gap:14px;margin-top:34px}
@@ -91,8 +135,9 @@ nav a.active{color:var(--accent);font-weight:600}
 .tri p{font-size:.95rem;color:var(--muted)}
 .f-title{font-size:1.15rem;margin:44px 0 16px;color:var(--ink)}
 .feat{display:grid;grid-template-columns:1fr;gap:14px}
-.f-card{border:1px solid var(--line);background:#fff;padding:22px}
-.f-card svg{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.6;margin-bottom:10px}
+.f-card{border:1px solid var(--line);background:var(--card);padding:24px;transition:border-color .2s,transform .2s}
+.f-card:hover{border-color:#CDB79E;transform:translateY(-2px)}
+.f-card svg{width:40px;height:40px;padding:9px;border-radius:50%;background:var(--panel);stroke:var(--accent);fill:none;stroke-width:1.6;margin-bottom:14px}
 .f-card h4{font-family:var(--serif);font-size:1rem;margin-bottom:6px}
 .f-card p{font-size:.9rem;color:var(--muted)}
 .arch{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);background:var(--panel);padding:26px}
@@ -104,9 +149,9 @@ nav a.active{color:var(--accent);font-weight:600}
 .offline .node.small{font-size:.8rem;padding:8px}
 .offline .arrow.small{padding:6px 0}
 .stack{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
-.stack li{border:1px solid var(--line);background:#fff;padding:6px 14px;font-size:.88rem}
+.stack li{border:1px solid var(--line);background:var(--card);padding:6px 14px;font-size:.88rem}
 
-.role-box{border:1px solid var(--line);background:#fff;padding:24px;margin-top:14px}
+.role-box{border:1px solid var(--line);background:var(--card);padding:24px;margin-top:14px}
 .role-box ul{list-style:none}
 .role-box li{font-size:.95rem;color:var(--muted);padding:6px 0 6px 22px;position:relative}
 .role-box li::before{content:"";position:absolute;left:4px;top:16px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
@@ -161,6 +206,9 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
   section{padding:96px 0}
   .hero{padding:72px 0 64px}
   .tri{grid-template-columns:repeat(2,1fr)}
+  .hero-grid{grid-template-columns:1.35fr .9fr;gap:64px}
+  .work{grid-template-columns:repeat(2,1fr)}
+  .tool div{grid-template-columns:160px 1fr}
   .demo{grid-template-columns:auto 1fr;gap:44px;padding:36px 44px}
     nav ul{gap:22px}
   nav a{font-size:.92rem}
@@ -199,9 +247,10 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
 <!-- ===== view: home ===== -->
 <section class="view" id="view-home">
   <div class="wrap">
-    <div class="hero">
-      <p class="kicker">Portfolio</p>
-      <h1>Hi, I'm Wei Wenxuan — I build mobile &amp; web apps that make things easier for people.</h1>
+    <div class="hero hero-grid">
+     <div>
+      <p class="status"><i aria-hidden="true"></i>Open to software engineering internships</p>
+      <h1>Hi, I'm Wei Wenxuan — I build mobile &amp; web apps that make things <em>easier</em> for people.</h1>
       <p class="sub">BS Information Technology student at FEU Institute of Technology, specializing in Web and Mobile Application development, and looking for a software engineering internship. I build practical products across the frontend, backend, and data layers — from Flutter apps and REST APIs to offline-first systems that stay useful when connectivity is limited.</p>
       <div class="meta">
         <span><svg viewBox="0 0 24 24"><path d="M12 3l1.8 3.6 4 .6-2.9 2.8.7 4L12 12.4 8.4 14l.7-4L6.2 7.2l4-.6z"/></svg>FEU Institute of Technology</span>
@@ -209,15 +258,54 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
         <span><svg viewBox="0 0 24 24"><path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M8 8h8M8 12h5"/></svg>Flutter · Node.js · Offline-first</span>
       </div>
       <div class="hero-cta">
-        <a class="btn solid" href="#/project">See my project</a>
+        <a class="btn solid" href="#/project">See my project <span class="arrow-r" aria-hidden="true">→</span></a>
         <a class="btn" href="#/resume">View resume</a>
       </div>
+     </div>
+      <figure class="portrait">
+        <div class="frame">
+          <img src="assets/photo.jpg" alt="Portrait of Wei Wenxuan">
+          <figcaption><b>Wei Wenxuan</b><span>Manila, Philippines</span></figcaption>
+        </div>
+      </figure>
     </div>
+
+    <section>
+      <p class="eyebrow">Selected work</p>
+      <h2>Things I've built</h2>
+      <div class="work">
+        <a class="w-card" href="#/project">
+          <span class="tag">Group capstone · Mobile developer</span>
+          <h3>PicKape — Coffee Quality &amp; Traceability</h3>
+          <p>A Flutter app that lets coffee growers record harvests, sort for quality, and trace every batch back to its farm, even with no signal.</p>
+          <div class="chips"><span>Flutter</span><span>SQLite</span><span>Offline-first</span><span>REST API</span></div>
+          <span class="go">View case study <span class="arrow-r" aria-hidden="true">→</span></span>
+        </a>
+        <a class="w-card" href="deadline-tracker.html" target="_blank" rel="noopener">
+          <span class="tag">Personal project</span>
+          <h3>Deadline Tracker</h3>
+          <p>An offline planner for assignments and exams, with a weekly view sorted by due date and reminders before each deadline.</p>
+          <div class="chips"><span>Local SQLite</span><span>Reminders</span><span>Offline</span></div>
+          <span class="go">Open web demo <span class="arrow-r" aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+    </section>
 
     <section>
       <p class="eyebrow">About</p>
       <h2>I like building apps that still work when conditions aren't ideal.</h2>
       <p class="lead" style="max-width:64ch">My capstone, PicKape, started from a simple fact: coffee farms often have weak or no signal, so a cloud-only app would fail exactly where it's needed. That pushed me to think beyond screens — about local storage, sync, and what happens to data on its way from the phone to the server. Day to day I work with Flutter, Node.js and Express REST APIs, SQLite, MySQL and Firebase Admin. I'm looking for a software engineering internship where I can keep building mobile, web and backend products alongside an experienced team.</p>
+    </section>
+
+    <section>
+      <p class="eyebrow">Toolkit</p>
+      <h2>What I work with</h2>
+      <dl class="tool">
+        <div><dt>Mobile</dt><dd>Flutter, Dart</dd></div>
+        <div><dt>Backend</dt><dd>Node.js, Express, REST APIs, PHP, Laravel, CodeIgniter</dd></div>
+        <div><dt>Data</dt><dd>SQLite, MySQL, Firebase Admin</dd></div>
+        <div><dt>Also</dt><dd>JavaScript, HTML, CSS, Java, Python, Git, GitHub Pages</dd></div>
+      </dl>
     </section>
   </div>
 </section>
@@ -225,10 +313,11 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
 <!-- ===== view: project ===== -->
 <section class="view" id="view-project">
   <div class="wrap">
-    <p class="eyebrow">Featured Projects</p>
+    <p class="eyebrow">Featured project</p>
     <h2>PicKape — Coffee Quality &amp; Traceability System</h2>
+    <div class="p-meta"><span><b>Group capstone</b></span><span>My role: <b>Mobile developer</b></span><span>Flutter · Android</span></div>
     <p class="lead">PicKape is a farm-to-cup management app for coffee growers. Farmers record harvest batches in the field, scan them, track quality, and hand every bean a clear traceable story — even on farms where the network is unreliable.</p>
-    <p style="margin-top:24px"><a class="btn solid" href="https://pickape.com" target="_blank" rel="noopener">Visit the live website</a></p>
+    <p style="margin-top:24px"><a class="btn solid" href="https://pickape.com" target="_blank" rel="noopener">Visit the live website <span class="arrow-r" aria-hidden="true">↗</span></a></p>
 
 
     <!-- Mobile demo: put a screen recording at assets/pickape-demo.mp4 (portrait, ~30-60 s,
@@ -467,11 +556,17 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
 <footer>
   <div class="wrap">
     <span>© 2026 Wei Wenxuan</span>
+    <div class="links">
+      <a href="mailto:weiwenxuan59@gmail.com">Email</a>
+      <a href="https://github.com/andreweiiii" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/wenxuan-wei-9150aa40a" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="output/pdf/Wei_Wenxuan_Software_Engineer_Resume.pdf" download>Resume (PDF)</a>
+    </div>
   </div>
 </footer>
 
 <script>
-var links = document.querySelectorAll('nav a');
+var links = document.querySelectorAll('nav ul a');
 function route(){
   var hash = location.hash.replace(/^#\/?/, '') || 'home';
   var id = 'view-' + hash;
