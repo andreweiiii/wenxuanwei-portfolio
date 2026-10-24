@@ -5,8 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wei Wenxuan — Mobile &amp; Web Developer Portfolio</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%239A5B2E'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='34' fill='%23F6F2EC' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://miaoda.feishu.cn">
-<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap">
+<meta name="description" content="Wei Wenxuan — BSIT (Web & Mobile Applications) student at FEU Institute of Technology. Flutter, Node.js and offline-first apps. Seeking a software engineering internship.">
+<meta name="author" content="Wei Wenxuan">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Wei Wenxuan — Mobile &amp; Web Developer">
+<meta property="og:description" content="Flutter, Node.js and offline-first apps. Featured project: PicKape, a coffee quality &amp; traceability system.">
+<!-- Fonts: two sources loaded in parallel and non-blocking, so the page renders
+     immediately whether the visitor is in China (Feishu) or elsewhere (Google). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://miaoda.feishu.cn/fonts/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap">
 <style>
 :root{
   --paper:#F6F2EC;
@@ -36,6 +45,7 @@ a:hover{text-decoration:underline}
 .page-top{height:84px}
 section{padding:72px 0;border-top:1px solid var(--line)}
 section:first-of-type{border-top:none}
+section.view{border-top:none}
 .eyebrow{
   font-family:var(--sans);
   font-size:12px;
@@ -53,10 +63,10 @@ h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin-bottom:18px}
 /* ---------- nav ---------- */
 nav{position:fixed;top:0;left:0;right:0;z-index:20;background:rgba(246,242,236,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-.brand{font-family:var(--serif);font-size:1.05rem;color:var(--accent)}
+.brand{font-family:var(--serif);font-size:.98rem;color:var(--accent);white-space:nowrap}
 .brand:hover{text-decoration:none}
-nav ul{list-style:none;display:flex;gap:22px;flex-wrap:wrap}
-nav a{color:var(--muted);font-size:.92rem}
+nav ul{list-style:none;display:flex;gap:14px}
+nav a{color:var(--muted);font-size:.85rem;white-space:nowrap}
 nav a:hover{color:var(--accent);text-decoration:none}
 nav a.active{color:var(--accent);font-weight:600}
 
@@ -95,6 +105,22 @@ nav a.active{color:var(--accent);font-weight:600}
 .offline .arrow.small{padding:6px 0}
 .stack{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
 .stack li{border:1px solid var(--line);background:#fff;padding:6px 14px;font-size:.88rem}
+
+.role-box{border:1px solid var(--line);background:#fff;padding:24px;margin-top:14px}
+.role-box ul{list-style:none}
+.role-box li{font-size:.95rem;color:var(--muted);padding:6px 0 6px 22px;position:relative}
+.role-box li::before{content:"";position:absolute;left:4px;top:16px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.role-box p{font-size:.95rem;color:var(--muted)}
+.resume-actions{margin-top:18px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn.sm{padding:8px 18px;font-size:.88rem}
+.email-line{text-align:center;margin-top:26px;font-size:1.05rem}
+
+.demo{display:grid;grid-template-columns:1fr;gap:28px;align-items:center;margin-top:40px;padding:28px;border:1px solid var(--line);background:var(--panel)}
+.phone{width:240px;margin:0 auto;padding:12px;background:#1d1611;border-radius:38px;box-shadow:0 18px 40px rgba(36,27,20,.18)}
+.phone video{display:block;width:100%;aspect-ratio:9/19.5;object-fit:cover;border-radius:28px;background:#000;cursor:pointer}
+.demo h3{font-size:1.3rem;margin-bottom:10px}
+.demo p{color:var(--muted);font-size:.95rem}
+.demo .hint{font-size:.82rem;margin-top:14px}
 
 /* ---------- skills / contact / resume ---------- */
 .skills-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:28px}
@@ -135,6 +161,10 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
   section{padding:96px 0}
   .hero{padding:72px 0 64px}
   .tri{grid-template-columns:repeat(2,1fr)}
+  .demo{grid-template-columns:auto 1fr;gap:44px;padding:36px 44px}
+    nav ul{gap:22px}
+  nav a{font-size:.92rem}
+  .brand{font-size:1.05rem}
   .feat{grid-template-columns:repeat(3,1fr)}
   .skills-grid{grid-template-columns:repeat(3,1fr)}
   .contact-box{justify-content:center}
@@ -172,7 +202,7 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
     <div class="hero">
       <p class="kicker">Portfolio</p>
       <h1>Hi, I'm Wei Wenxuan — I build mobile &amp; web apps that make things easier for people.</h1>
-      <p class="sub">Software Engineer Intern and BS Information Technology student at FEU Institute of Technology, specializing in Web and Mobile Application development. I build practical products across the frontend, backend, and data layers — from Flutter apps and REST APIs to offline-first systems that stay useful when connectivity is limited.</p>
+      <p class="sub">BS Information Technology student at FEU Institute of Technology, specializing in Web and Mobile Application development, and looking for a software engineering internship. I build practical products across the frontend, backend, and data layers — from Flutter apps and REST APIs to offline-first systems that stay useful when connectivity is limited.</p>
       <div class="meta">
         <span><svg viewBox="0 0 24 24"><path d="M12 3l1.8 3.6 4 .6-2.9 2.8.7 4L12 12.4 8.4 14l.7-4L6.2 7.2l4-.6z"/></svg>FEU Institute of Technology</span>
         <span><svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 0 0-7 7c0 5 7 11 7 11s7-6 7-11a7 7 0 0 0-7-7z"/><circle cx="12" cy="10" r="2.5"/></svg>BS Information Technology — WMA</span>
@@ -186,8 +216,8 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
 
     <section>
       <p class="eyebrow">About</p>
-      <h2>I build practical products from mobile interface to backend.</h2>
-      <p class="lead" style="max-width:64ch">I'm a BS Information Technology student at FEU Institute of Technology, specializing in Web and Mobile Application development. I build practical products across the frontend, backend, and data layers, with hands-on experience in Flutter, Node.js and Express REST APIs, local SQLite storage, MySQL, Firebase Admin, and offline-first synchronization. My capstone project, PicKape, connects a Flutter mobile app to a backend that helps coffee growers manage batches and traceability in low-connectivity environments. I'm seeking a software engineering internship where I can contribute to mobile, web, and backend products while continuing to grow as an engineer.</p>
+      <h2>I like building apps that still work when conditions aren't ideal.</h2>
+      <p class="lead" style="max-width:64ch">My capstone, PicKape, started from a simple fact: coffee farms often have weak or no signal, so a cloud-only app would fail exactly where it's needed. That pushed me to think beyond screens — about local storage, sync, and what happens to data on its way from the phone to the server. Day to day I work with Flutter, Node.js and Express REST APIs, SQLite, MySQL and Firebase Admin. I'm looking for a software engineering internship where I can keep building mobile, web and backend products alongside an experienced team.</p>
     </section>
   </div>
 </section>
@@ -200,6 +230,23 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
     <p class="lead">PicKape is a farm-to-cup management app for coffee growers. Farmers record harvest batches in the field, scan them, track quality, and hand every bean a clear traceable story — even on farms where the network is unreliable.</p>
     <p style="margin-top:24px"><a class="btn solid" href="https://pickape.com" target="_blank" rel="noopener">Visit the live website</a></p>
 
+
+    <!-- Mobile demo: put a screen recording at assets/pickape-demo.mp4 (portrait, ~30-60 s,
+         ideally under 5 MB). The section stays hidden until that file exists. -->
+    <div class="demo" id="pk-demo" hidden>
+      <div class="phone">
+        <video id="pk-video" muted loop playsinline autoplay preload="auto" poster="assets/pickape-demo-poster.jpg" aria-label="Screen recording of the PicKape mobile app">
+          <source src="assets/pickape-demo.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div>
+        <p class="eyebrow">Mobile demo</p>
+        <h3>The app I built, running on a phone</h3>
+        <p>A short walkthrough of the PicKape Flutter app on an Android phone: signing in, the grower dashboard and analytics, creating a harvest record with an off-season date check, registering a sorting batch with moisture and water-activity readings, and submitting it for review with its full traceability record.</p>
+        <p class="hint">Tap the video to pause or play.</p>
+      </div>
+    </div>
+
     <div class="tri">
       <div class="cell">
         <h3>Problem</h3>
@@ -208,6 +255,28 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
       <div class="cell">
         <h3>Solution</h3>
         <p>A Flutter app paired with a Node.js API. Batches are created on the phone, stored locally first, then synced when a connection is available. Every batch carries farm and harvest details for full traceability.</p>
+      </div>
+    </div>
+
+    <div id="pk-role">
+      <h3 class="f-title">My role — Mobile developer (Flutter)</h3>
+      <div class="role-box">
+        <p style="margin-bottom:8px">PicKape was a group capstone. I owned the mobile app; teammates built the backend.</p>
+        <ul>
+          <li>Built the Flutter app screens: login, live dashboard, batch management, and farm traceability.</li>
+          <li>Implemented the offline-first layer on the phone — a local SQLite store and a sync manager that pushes and pulls batches through the REST API when the network returns.</li>
+          <li>Built QR batch scanning with the phone camera, linking each scan to its batch record.</li>
+          <li>Integrated the app with the team's Express API for authentication, image upload, and role-based flows.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Hardest problem: one short paragraph on a real engineering decision, e.g. how sync
+         conflicts are resolved, or why both SQLite and MySQL are used. Delete "hidden" when filled. -->
+    <div id="pk-challenge" hidden>
+      <h3 class="f-title">Hardest problem I solved</h3>
+      <div class="role-box">
+        <p>TODO: the problem → the options you considered → what you chose and why → the result.</p>
       </div>
     </div>
 
@@ -282,7 +351,8 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
         <img class="headshot" src="assets/photo.jpg" alt="Wei Wenxuan">
         <h1>Wei Wenxuan</h1>
         <p class="role">BSIT WMA Student · Mobile &amp; Web Developer</p>
-        <p class="contact-line">weiwenxuan59@gmail.com · github.com/andreweiiii · linkedin.com/in/wenxuan-wei-9150aa40a</p>
+        <p class="contact-line"><a href="mailto:weiwenxuan59@gmail.com">weiwenxuan59@gmail.com</a> · <a href="https://github.com/andreweiiii" target="_blank" rel="noopener">github.com/andreweiiii</a> · <a href="https://www.linkedin.com/in/wenxuan-wei-9150aa40a" target="_blank" rel="noopener">linkedin.com/in/wenxuan-wei-9150aa40a</a></p>
+        <div class="resume-actions"><a class="btn solid sm" href="output/pdf/Wei_Wenxuan_Software_Engineer_Resume.pdf" download>Download PDF resume</a></div>
       </div>
 
       <div class="resume-cols">
@@ -296,7 +366,7 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
             <h3>Project</h3>
             <div class="resume-item">
               <p class="t">PicKape — Coffee Quality &amp; Traceability System</p>
-              <p class="m">Group capstone</p>
+              <p class="m">Group capstone · My role: mobile developer (Flutter)</p>
               <p class="site"><a href="https://pickape.com" target="_blank" rel="noopener">pickape.com</a></p>
               <ul>
                 <li>Flutter mobile app covering login, dashboard, batch management, and traceability.</li>
@@ -376,12 +446,19 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
       <h2>Let's talk about internships.</h2>
       <p class="lead">I'm looking for an internship where I can build real mobile and web products and learn fast. Reach me through any channel below.</p>
     </div>
+    <p class="email-line"><a href="mailto:weiwenxuan59@gmail.com">weiwenxuan59@gmail.com</a></p>
     <div class="contact-box">
+      <a class="social" href="mailto:weiwenxuan59@gmail.com" aria-label="Email">
+        <svg viewBox="0 0 24 24" role="img"><path d="M2 5h20v14H2z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 5.5L12 13l9.5-7.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      </a>
       <a class="social" href="https://github.com/andreweiiii" target="_blank" rel="noopener" aria-label="GitHub">
         <svg viewBox="0 0 24 24" role="img"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
       </a>
       <a class="social" href="https://www.linkedin.com/in/wenxuan-wei-9150aa40a" target="_blank" rel="noopener" aria-label="LinkedIn">
         <svg viewBox="0 0 24 24" role="img"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S.02 4.88.02 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4v16h-4V8zm7 0h3.8v2.2h.05c.53-1 1.83-2.2 3.9-2.2 4.16 0 4.93 2.74 4.93 6.3V24h-4v-8.4c0-2-.05-4.6-2.8-4.6-2.8 0-3.2 2.2-3.2 4.4V24h-4V8z"/></svg>
+      </a>
+      <a class="social" href="output/pdf/Wei_Wenxuan_Software_Engineer_Resume.pdf" download aria-label="Download PDF resume">
+        <svg viewBox="0 0 24 24" role="img"><path d="M6 2h9l5 5v15H6z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 10v7M9 14l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
       </a>
     </div>
   </div>
@@ -404,6 +481,16 @@ function route(){
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
+
+// Mobile demo: show the section only once the video file actually loads.
+(function(){
+  var box = document.getElementById('pk-demo'), v = document.getElementById('pk-video');
+  if (!box || !v) return;
+  function show(){ box.hidden = false; }
+  if (v.readyState >= 1) show(); else v.addEventListener('loadedmetadata', show);
+  v.addEventListener('click', function(){ v.paused ? v.play() : v.pause(); });
+})();
+
 route();
 </script>
 </body>
