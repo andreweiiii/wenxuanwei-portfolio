@@ -139,6 +139,9 @@ body.offline .offline-pill{display:inline-block}
 .fab:hover{background:#8A4F26}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:12px;font-size:.9rem;display:flex;align-items:center;gap:14px;opacity:0;pointer-events:none;transition:all .25s;z-index:30;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 .toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast{width:max-content;max-width:min(92vw,460px)}
+.toast .msg{flex:1;min-width:0}
+@media(max-width:560px){.toast{bottom:92px;left:16px;right:16px;transform:translateY(20px);max-width:none;width:auto}.toast.show{transform:none}}
 .toast button{border:0;background:var(--accent);color:#fff;border-radius:7px;padding:5px 12px;font-family:var(--sans);font-size:.82rem;cursor:pointer;font-weight:600}
 .modal-back{position:fixed;inset:0;background:rgba(43,43,40,.34);display:flex;align-items:flex-end;justify-content:center;z-index:20}
 @media(min-width:560px){.modal-back{align-items:center}}
@@ -246,6 +249,9 @@ html[data-theme=dark] .cv-status.new{background:#243023;border-color:#3A4A38}
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8M13.7 21a2 2 0 0 1-3.4 0"/></svg>
     </button>
     <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme" id="themeBtn"></button>
+    <button class="icon-btn" onclick="exportIcs()" title="Add to your calendar app (.ics)" aria-label="Add deadlines to your calendar app">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4M17 3v4M4 9h16M6 5h12a2 2 0 0 1 2 2v13H4V7a2 2 0 0 1 2-2Z"/><path d="M12 12v6M9 15h6"/></svg>
+    </button>
     <button class="icon-btn" onclick="exportJson()" title="Export backup" aria-label="Export backup">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
     </button>
@@ -267,7 +273,7 @@ html[data-theme=dark] .cv-status.new{background:#243023;border-color:#3A4A38}
   <div class="sheet">
     <h2 id="mTitle">New Deadline</h2>
     <div class="field"><label for="tTitle">Title</label><input id="tTitle" placeholder="e.g. Math Quiz 3" maxlength="120"></div>
-    <div class="field"><label>Course</label><input id="tCourse" placeholder="e.g. CS 204"></div>
+    <div class="field"><label>Course</label><input id="tCourse" placeholder="e.g. CS 204" list="courseList" autocomplete="off"><datalist id="courseList"></datalist></div>
     <div class="row">
       <div class="field"><label>Type</label>
         <select id="tType"><option>Assignment</option><option>Exam</option><option>Lab</option><option>Paper</option><option>Project</option></select>
@@ -307,8 +313,9 @@ html[data-theme=dark] .cv-status.new{background:#243023;border-color:#3A4A38}
     <div class="kv"><span class="k">Modified</span><span class="v" id="dModified"></span></div>
     <div class="kv"><span class="k">Completed</span><span class="v" id="dCompleted"></span></div>
     <div class="actions">
-      <button class="btn" onclick="closeDetail()">Close</button>
+      <button class="btn danger" onclick="detailDelete()">Delete</button>
       <button class="btn" onclick="detailEdit()">Edit</button>
+      <button class="btn primary" id="dDoneBtn" onclick="detailToggle()">Mark done</button>
     </div>
   </div>
 </div>
@@ -539,7 +546,13 @@ function card(it){
 function remindLabel(it){const h=remindHours(it),d=h/24;return h>=24?d+(d===1?' day':' days'):h+'h'}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
-function render(){renderStats();renderStrip();calRender();renderGroups()}
+function render(){renderStats();renderStrip();calRender();renderGroups();updateBadge()}
+function updateBadge(){
+  const now=new Date(),end=new Date(startOfDay(now).getTime()+86400000);
+  const n=active().filter(it=>new Date(it.due)<end).length;  // overdue or due today
+  document.title=(n?'('+n+') ':'')+'Deadline Tracker';
+  try{if(navigator.setAppBadge){n?navigator.setAppBadge(n):navigator.clearAppBadge()}}catch(e){}
+}
 function setView(v){view=v;document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('on'));$('#f'+(v==='all'?'All':v==='week'?'Week':'Done')).classList.add('on');render()}
 function setSort(v){sort=v;render()}
 function clearFilters(){q='';dayFilter='';sort='due';view='all';$('#q').value='';$('#sortSel').value='due';document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('on'));$('#fAll').classList.add('on');render()}
@@ -566,7 +579,8 @@ function openEdit(id){
   $('#tTime').value=pad(d.getHours())+':'+pad(d.getMinutes());$('#tNotes').value=it.notes||'';$('#tRepeat').checked=it.repeat==='weekly';
   showModal();
 }
-function showModal(){$('#modal').classList.remove('hidden');setTimeout(()=>$('#tTitle').focus(),50)}
+function fillCourses(){const cs=[...new Set(state.map(it=>it.course).filter(c=>c&&c!=='General'))].sort();$('#courseList').innerHTML=cs.map(c=>'<option value="'+esc(c)+'">').join('')}
+function showModal(){fillCourses();$('#modal').classList.remove('hidden');setTimeout(()=>$('#tTitle').focus(),50)}
 function closeAdd(){$('#modal').classList.add('hidden')}
 
 function save(){
@@ -603,7 +617,7 @@ function toggle(id){
 function del(id){
   const i=state.findIndex(it=>it.id===id);if(i<0)return;
   lastDel={item:state[i],index:i};state.splice(i,1);persist();render();
-  $('#toast').innerHTML='Deleted <b>'+esc(lastDel.item.title)+'</b><button onclick="undo()">Undo</button>';
+  $('#toast').innerHTML='<span class="msg">Deleted <b>'+esc(lastDel.item.title)+'</b></span><button onclick="undo()">Undo</button>';
   $('#toast').classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>{lastDel=null;$('#toast').classList.remove('show')},5000);
 }
 function undo(){
@@ -630,11 +644,38 @@ function openDetail(id){
   $('#dCreated').textContent=it.createdAt?fmtAbs(new Date(it.createdAt)):'—';
   $('#dModified').textContent=it.modifiedAt?fmtAbs(new Date(it.modifiedAt)):'—';
   $('#dCompleted').textContent=it.completedAt?fmtAbs(new Date(it.completedAt)):'—';
+  $('#dDoneBtn').textContent=it.done?'Mark not done':'Mark done';
   $('#detailModal').classList.remove('hidden');
 }
 function closeDetail(){$('#detailModal').classList.add('hidden');detailId=null}
+function detailToggle(){const id=detailId;closeDetail();if(id!=null)toggle(id)}
+function detailDelete(){const id=detailId;closeDetail();if(id!=null)del(id)}
 function detailEdit(){const id=detailId;closeDetail();if(id!=null)openEdit(id)}
 
+// Calendar apps keep reminding even when this page is closed, which a web page alone can't do.
+function icsEscape(s){return String(s||'').replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n')}
+function icsStamp(d){return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'')}
+function icsFold(line){const out=[];while(line.length>74){out.push(line.slice(0,74));line=' '+line.slice(74)}out.push(line);return out.join('\r\n')}
+function exportIcs(){
+  const items=active().filter(it=>new Date(it.due)>=new Date());
+  if(!items.length){toastMsg('No upcoming deadlines to add.');return}
+  const now=icsStamp(new Date());
+  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Wei Wenxuan//Deadline Tracker//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:Deadlines'];
+  items.forEach(it=>{
+    const due=new Date(it.due),start=new Date(due.getTime()-30*60000);
+    lines.push('BEGIN:VEVENT','UID:dt-'+it.id+'@deadline-tracker','DTSTAMP:'+now,'DTSTART:'+icsStamp(start),'DTEND:'+icsStamp(due),
+      'SUMMARY:'+icsEscape((it.type==='Exam'?'Exam: ':'Due: ')+it.title+(it.course&&it.course!=='General'?' ('+it.course+')':'')),
+      'DESCRIPTION:'+icsEscape([it.priority+' priority',it.notes].filter(Boolean).join('\n')));
+    if(it.repeat==='weekly')lines.push('RRULE:FREQ=WEEKLY');
+    const h=remindHours(it);
+    if(h>0)lines.push('BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+icsEscape(it.title),'TRIGGER:-PT'+h+'H','END:VALARM');
+    lines.push('END:VEVENT');
+  });
+  lines.push('END:VCALENDAR');
+  const blob=new Blob([lines.map(icsFold).join('\r\n')+'\r\n'],{type:'text/calendar'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='deadlines.ics';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  toastMsg(items.length+' deadline'+(items.length===1?'':'s')+' exported. Open the file to add them to your calendar.');
+}
 function exportJson(){
   const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='deadline-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toastMsg('Backup saved ('+state.length+' deadlines).');
@@ -756,7 +797,7 @@ function confirmCanvas(){
   if(added||updated){const msg=[];if(added)msg.push(added+' added');if(updated)msg.push(updated+' updated');toastMsg(msg.join(' · '))}
 }
 function toastMsg(m){
-  $('#toast').innerHTML=m;$('#toast').classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>{lastDel=null;$('#toast').classList.remove('show')},4000);
+  $('#toast').innerHTML='<span class="msg">'+m+'</span>';$('#toast').classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>{lastDel=null;$('#toast').classList.remove('show')},4000);
 }
 function closeCanvas(){$('#canvasModal').classList.add('hidden');canvasData=null}
 

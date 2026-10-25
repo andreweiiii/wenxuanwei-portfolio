@@ -1,6 +1,6 @@
 // Service worker for Deadline Tracker: lets the app open with no connection.
 // Scope is limited to /deadline-tracker*, so it never touches the rest of the portfolio site.
-const CACHE = 'deadline-tracker-v2';
+const CACHE = 'deadline-tracker-v3';
 const SHELL = [
   'deadline-tracker.html',
   'deadline-tracker.webmanifest',
