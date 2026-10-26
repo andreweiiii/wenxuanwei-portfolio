@@ -130,6 +130,36 @@ footer .links{display:flex;flex-wrap:wrap;gap:8px 20px}
 footer .links a{color:var(--muted)}
 footer .links a:hover{color:var(--accent)}
 
+.back{display:inline-flex;gap:6px;font-size:.88rem;color:var(--muted);margin-bottom:22px}
+.back:hover{color:var(--accent);text-decoration:none}
+.next{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:56px;padding:22px 24px;border:1px solid var(--line);background:var(--card);color:var(--ink);transition:border-color .2s}
+.next span{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.next b{font-family:var(--serif);font-weight:400;font-size:1.2rem;color:var(--accent)}
+.next:hover{text-decoration:none;border-color:#CDB79E}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.work-index{margin-top:34px}
+.flow-box{border:1px solid var(--line);background:var(--panel);padding:22px}
+.flow-label{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.flow-label:not(:first-child){margin-top:20px}
+.flow{list-style:none;display:grid;grid-template-columns:1fr;gap:8px;counter-reset:step}
+.flow li{position:relative;background:var(--card);border:1px solid var(--line);padding:10px 14px;font-size:.92rem;font-weight:500}
+.flow li small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+.flow li.end{border-color:var(--accent);color:var(--accent)}
+.flow-note{margin-top:18px;font-size:.88rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:14px}
+.decisions{display:grid;grid-template-columns:1fr;gap:14px}
+.decisions>div{border-left:2px solid var(--accent);background:var(--card);padding:16px 20px}
+.decisions h4{font-family:var(--serif);font-size:1rem;margin-bottom:6px}
+.decisions p{font-size:.92rem;color:var(--muted)}
+.facts{list-style:none;display:grid;gap:10px}
+.facts li{font-size:.95rem;color:var(--muted);padding-left:22px;position:relative}
+.facts li::before{content:"";position:absolute;left:4px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.facts b{color:var(--ink);font-weight:600}
+.facts code{font-size:.85em;background:var(--panel);padding:1px 6px}
+.avail{max-width:560px;margin:30px auto 0;border-top:1px solid var(--line)}
+.avail div{display:grid;grid-template-columns:140px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);text-align:left;font-size:.95rem}
+.avail dt{color:var(--accent);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding-top:3px}
+.avail dd{color:var(--ink)}
+
 /* ---------- project ---------- */
 .tri{display:grid;grid-template-columns:1fr;gap:14px;margin-top:34px}
 .tri .cell{border:1px solid var(--line);background:var(--panel);padding:22px}
@@ -208,6 +238,10 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
   section{padding:96px 0}
   .hero{padding:72px 0 64px}
   .tri{grid-template-columns:repeat(2,1fr)}
+  .flow{grid-template-columns:repeat(5,1fr)}
+  .flow li:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:50%;transform:translate(50%,-50%);color:var(--accent);font-size:.9rem}
+  .flow{gap:16px}
+  .decisions{grid-template-columns:repeat(2,1fr)}
   .hero-grid{grid-template-columns:1.35fr .9fr;gap:64px}
   .tool div{grid-template-columns:160px 1fr}
   .demo{grid-template-columns:auto 1fr;gap:44px;padding:36px 44px}
@@ -236,7 +270,7 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
     <a class="brand" href="#/home">Wei Wenxuan</a>
     <ul>
       <li><a href="#/home">Home</a></li>
-      <li><a href="#/project">Project</a></li>
+      <li><a href="#/projects">Projects</a></li>
       <li><a href="#/resume">Resume</a></li>
       <li><a href="#/contact">Contact</a></li>
     </ul>
@@ -259,7 +293,7 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
         <span><svg viewBox="0 0 24 24"><path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M8 8h8M8 12h5"/></svg>Flutter · Node.js · Offline-first</span>
       </div>
       <div class="hero-cta">
-        <a class="btn solid" href="#/project">See my project <span class="arrow-r" aria-hidden="true">→</span></a>
+        <a class="btn solid" href="#/projects">See my projects <span class="arrow-r" aria-hidden="true">→</span></a>
         <a class="btn" href="#/resume">View resume</a>
       </div>
      </div>
@@ -282,20 +316,19 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
           <div class="chips"><span>Flutter</span><span>SQLite</span><span>Offline-first</span><span>REST API</span></div>
           <span class="go">View case study <span class="arrow-r" aria-hidden="true">→</span></span>
         </a>
-        <a class="w-card" href="deadline-tracker.html" target="_blank" rel="noopener">
+        <a class="w-card" href="#/deadline-tracker">
           <span class="tag">Personal project</span>
           <h3>Deadline Tracker</h3>
-          <p>An offline planner for assignments and exams, with a weekly view sorted by due date and reminders before each deadline.</p>
-          <div class="chips"><span>Local SQLite</span><span>Reminders</span><span>Offline</span></div>
-          <span class="go">Open web demo <span class="arrow-r" aria-hidden="true">↗</span></span>
+          <p>An offline planner for assignments and exams, with a weekly view, reminders before each deadline, and export to your phone's calendar.</p>
+          <div class="chips"><span>JavaScript</span><span>PWA</span><span>Offline</span></div>
+          <span class="go">View case study <span class="arrow-r" aria-hidden="true">→</span></span>
         </a>
-        <a class="w-card" href="https://knowledge-hub-lm7l.onrender.com" target="_blank" rel="noopener">
+        <a class="w-card" href="#/knowledge-hub">
           <span class="tag">Personal project · AI</span>
           <h3>Knowledge Hub</h3>
           <p>Upload company documents and ask questions in plain English. It finds the most relevant passages and answers only from them, citing each source.</p>
-          <small class="note">Free hosting: the first load can take about a minute.</small>
           <div class="chips"><span>Python</span><span>FastAPI</span><span>RAG</span><span>SQLite</span></div>
-          <span class="go">Open live demo <span class="arrow-r" aria-hidden="true">↗</span></span>
+          <span class="go">View case study <span class="arrow-r" aria-hidden="true">→</span></span>
         </a>
       </div>
     </section>
@@ -325,7 +358,8 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
 <!-- ===== view: project ===== -->
 <section class="view" id="view-project">
   <div class="wrap">
-    <p class="eyebrow">Featured project</p>
+    <a class="back" href="#/projects"><span aria-hidden="true">←</span> All projects</a>
+    <p class="eyebrow">Case study · Mobile</p>
     <h2>PicKape — Coffee Quality &amp; Traceability System</h2>
     <div class="p-meta"><span><b>Group capstone</b></span><span>My role: <b>Mobile developer</b></span><span>Flutter · Android</span></div>
     <p class="lead">PicKape is a farm-to-cup management app for coffee growers. Farmers record harvest batches in the field, scan them, track quality, and hand every bean a clear traceable story — even on farms where the network is unreliable.</p>
@@ -440,6 +474,159 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
       <li>QR scanning</li>
     </ul>
 
+    <a class="next" href="#/knowledge-hub"><span>Next project</span><b>Knowledge Hub <span class="arrow-r" aria-hidden="true">→</span></b></a>
+  </div>
+</section>
+
+<!-- ===== view: projects index ===== -->
+<section class="view" id="view-projects">
+  <div class="wrap">
+    <p class="eyebrow">Projects</p>
+    <h2>Case studies</h2>
+    <p class="lead">Three apps I've built, from a Flutter field app to an AI document assistant. Each page covers the problem, how it works, and the decisions behind it.</p>
+    <div class="work work-index">
+        <a class="w-card" href="#/project">
+          <span class="tag">Group capstone · Mobile developer</span>
+          <h3>PicKape — Coffee Quality &amp; Traceability</h3>
+          <p>A Flutter app that lets coffee growers record harvests, sort for quality, and trace every batch back to its farm, even with no signal.</p>
+          <div class="chips"><span>Flutter</span><span>SQLite</span><span>Offline-first</span><span>REST API</span></div>
+          <span class="go">View case study <span class="arrow-r" aria-hidden="true">→</span></span>
+        </a>
+        <a class="w-card" href="#/deadline-tracker">
+          <span class="tag">Personal project</span>
+          <h3>Deadline Tracker</h3>
+          <p>An offline planner for assignments and exams, with a weekly view, reminders before each deadline, and export to your phone's calendar.</p>
+          <div class="chips"><span>JavaScript</span><span>PWA</span><span>Offline</span></div>
+          <span class="go">View case study <span class="arrow-r" aria-hidden="true">→</span></span>
+        </a>
+        <a class="w-card" href="#/knowledge-hub">
+          <span class="tag">Personal project · AI</span>
+          <h3>Knowledge Hub</h3>
+          <p>Upload company documents and ask questions in plain English. It finds the most relevant passages and answers only from them, citing each source.</p>
+          <div class="chips"><span>Python</span><span>FastAPI</span><span>RAG</span><span>SQLite</span></div>
+          <span class="go">View case study <span class="arrow-r" aria-hidden="true">→</span></span>
+        </a>
+      </div>
+  </div>
+</section>
+
+<!-- ===== view: Knowledge Hub ===== -->
+<section class="view" id="view-knowledge-hub">
+  <div class="wrap">
+    <a class="back" href="#/projects"><span aria-hidden="true">←</span> All projects</a>
+    <p class="eyebrow">Case study · AI</p>
+    <h2>Knowledge Hub — Document Q&amp;A with RAG</h2>
+    <div class="p-meta"><span><b>Personal project</b></span><span>Python · FastAPI · SQLite</span><span>Live on Render</span></div>
+    <p class="lead">Upload company documents (PDF, Word, Markdown) and ask questions in plain English. Knowledge Hub finds the passages that answer the question and replies only from them, citing every source so the answer can be checked.</p>
+    <p class="cta-row"><a class="btn solid" href="https://knowledge-hub-lm7l.onrender.com" target="_blank" rel="noopener">Open the live demo <span class="arrow-r" aria-hidden="true">↗</span></a><a class="btn" href="https://github.com/andreweiiii/knowledge-hub" target="_blank" rel="noopener">View source <span class="arrow-r" aria-hidden="true">↗</span></a></p>
+
+    <div class="tri">
+      <div class="cell">
+        <h3>Problem</h3>
+        <p>Answers to everyday questions such as "how do I claim travel expenses?" sit inside long policy PDFs. People ask the same questions repeatedly, and a chatbot that makes things up is worse than no answer.</p>
+      </div>
+      <div class="cell">
+        <h3>Solution</h3>
+        <p>Retrieval-augmented generation: index the documents, retrieve the most relevant passages for each question, and have the model answer only from those passages, with [S1]-style citations and a confidence score.</p>
+      </div>
+    </div>
+
+    <h3 class="f-title">How it works</h3>
+    <div class="flow-box">
+      <p class="flow-label">Indexing a document</p>
+      <ol class="flow">
+        <li>Upload<small>PDF · DOCX · MD</small></li>
+        <li>Extract text<small>pypdf · python-docx</small></li>
+        <li>Split into chunks<small>~1,200 chars, overlapping</small></li>
+        <li>Embed<small>vector per chunk</small></li>
+        <li class="end">Store<small>SQLite + memory cache</small></li>
+      </ol>
+      <p class="flow-label">Answering a question</p>
+      <ol class="flow">
+        <li>Question<small>secrets filtered out</small></li>
+        <li>Embed &amp; compare<small>cosine similarity</small></li>
+        <li>Top 4 passages<small>with scores</small></li>
+        <li>Model answers<small>from passages only</small></li>
+        <li class="end">Answer<small>[S1] citations · confidence</small></li>
+      </ol>
+      <p class="flow-note">If the AI model is down or not configured, retrieval switches to BM25 keyword search and the app returns the best matching passages, clearly labelled, instead of an error.</p>
+    </div>
+
+    <h3 class="f-title">Key decisions</h3>
+    <div class="decisions">
+      <div><h4>Answer only from sources</h4><p>The model is instructed to use the retrieved passages and nothing else, and to say when they don't contain the answer. Every claim carries a citation the reader can open.</p></div>
+      <div><h4>Tag every vector with its model</h4><p>Vectors from different embedding models can't be compared. Each one stores the model that made it, so switching models re-embeds automatically instead of silently returning wrong matches.</p></div>
+      <div><h4>Degrade instead of failing</h4><p>An AI outage shouldn't take search down with it. Uploads are still saved, and questions fall back to keyword search with an honest notice.</p></div>
+      <div><h4>Any OpenAI-compatible provider</h4><p>The AI layer talks plain HTTP, so it runs on a free local model with Ollama, on OpenAI, or on any compatible service, with no SDK lock-in and a lighter deploy.</p></div>
+      <div><h4>Safe to share publicly</h4><p>Demo mode adds per-IP rate limits, upload caps, a document limit, protected sample documents, and question history that is private to each visitor.</p></div>
+      <div><h4>Real numbers only</h4><p>The analytics page (questions per day, most cited documents, median response time, hit rate) is computed from stored questions, not placeholder figures.</p></div>
+    </div>
+
+    <h3 class="f-title">Testing &amp; deployment</h3>
+    <ul class="facts">
+      <li><b>24</b> automated tests run against a fake OpenAI-compatible server: file parsing, chunking, ranking, model switching, outage fallback, demo limits, and analytics.</li>
+      <li>Deployed on Render from a <code>render.yaml</code> blueprint; a scheduled GitHub Action keeps the free instance awake so the demo opens instantly.</li>
+    </ul>
+
+    <h3 class="f-title">Tech stack</h3>
+    <ul class="stack">
+      <li>Python</li><li>FastAPI</li><li>SQLite</li><li>pypdf</li><li>python-docx</li><li>httpx</li><li>Embeddings</li><li>BM25</li><li>Ollama</li><li>OpenAI-compatible APIs</li><li>Render</li><li>GitHub Actions</li>
+    </ul>
+
+    <a class="next" href="#/deadline-tracker"><span>Next project</span><b>Deadline Tracker <span class="arrow-r" aria-hidden="true">→</span></b></a>
+  </div>
+</section>
+
+<!-- ===== view: Deadline Tracker ===== -->
+<section class="view" id="view-deadline-tracker">
+  <div class="wrap">
+    <a class="back" href="#/projects"><span aria-hidden="true">←</span> All projects</a>
+    <p class="eyebrow">Case study · Web app</p>
+    <h2>Deadline Tracker — Assignment &amp; Exam Planner</h2>
+    <div class="p-meta"><span><b>Personal project</b></span><span>JavaScript · PWA</span><span>Works offline</span></div>
+    <p class="lead">A planner for students that keeps every assignment and exam in one place, shows the week at a glance, and reminds you before things are due. It works offline and installs to a phone's home screen like an app.</p>
+    <p class="cta-row"><a class="btn solid" href="deadline-tracker.html" target="_blank" rel="noopener">Open the app <span class="arrow-r" aria-hidden="true">↗</span></a></p>
+
+    <div class="tri">
+      <div class="cell">
+        <h3>Problem</h3>
+        <p>Deadlines are spread across Canvas, class group chats, and syllabi. In a busy week it's easy to miss one, and most planners need an account and a connection.</p>
+      </div>
+      <div class="cell">
+        <h3>Solution</h3>
+        <p>One list grouped into Overdue, Due today, This week, and Later, with a calendar and reminders. Everything stays on the device, so it opens instantly and works with no signal.</p>
+      </div>
+    </div>
+
+    <h3 class="f-title">Key features</h3>
+    <div class="feat">
+      <div class="f-card"><svg viewBox="0 0 24 24"><path d="M7 3v4M17 3v4M4 9h16M6 5h12a2 2 0 0 1 2 2v13H4V7a2 2 0 0 1 2-2Z"/></svg><h4>Week at a glance</h4><p>Counts for overdue, today, and this week, a 7-day strip, and a month calendar you can tap to filter.</p></div>
+      <div class="f-card"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8M13.7 21a2 2 0 0 1-3.4 0"/></svg><h4>Reminders that fire once</h4><p>Each deadline is announced once when it enters its reminder window, through notifications or an in-page message.</p></div>
+      <div class="f-card"><svg viewBox="0 0 24 24"><path d="M7 3v4M17 3v4M4 9h16M6 5h12a2 2 0 0 1 2 2v13H4V7a2 2 0 0 1 2-2Z"/><path d="M12 12v6M9 15h6"/></svg><h4>Add to your calendar</h4><p>Exports upcoming deadlines as an .ics file with alarms and weekly repeats, so your phone reminds you even when the app is closed.</p></div>
+      <div class="f-card"><svg viewBox="0 0 24 24"><path d="M4 4h13v16H4z"/><path d="M17 8h3v12H7v-3"/></svg><h4>Canvas import</h4><p>Reads a Canvas calendar feed, previews new and changed items, and updates existing ones instead of duplicating them.</p></div>
+      <div class="f-card"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2"/></svg><h4>Offline &amp; installable</h4><p>A service worker caches the app, and a web manifest lets it install to the home screen and open with no connection.</p></div>
+      <div class="f-card"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><h4>Backup &amp; restore</h4><p>Export everything to a JSON file and merge or replace it later, on the same device or a new one.</p></div>
+    </div>
+
+    <h3 class="f-title">Key decisions</h3>
+    <div class="decisions">
+      <div><h4>Keep data on the device</h4><p>No account and no server means instant loading, privacy, and full offline use. The trade-off is no automatic sync between devices, which JSON backup and calendar export cover.</p></div>
+      <div><h4>Scope the service worker</h4><p>The offline cache is limited to the tracker's own files, so installing it never interferes with the rest of this portfolio site.</p></div>
+      <div><h4>Hand reliable reminders to the calendar</h4><p>A web page can't wake itself up to notify you once it's closed. Exporting alarms to the phone's calendar app solves that without a backend.</p></div>
+      <div><h4>Repeats you can undo</h4><p>Finishing a weekly item creates next week's copy; unchecking by mistake removes that copy again, so repeats never pile up as duplicates.</p></div>
+    </div>
+
+    <h3 class="f-title">Testing</h3>
+    <ul class="facts">
+      <li><b>30</b> automated browser checks (Playwright) cover sample data, weekly repeats, delete and undo, reminders, backup export, Canvas import, calendar export, offline reload, phone layout, and dark mode.</li>
+    </ul>
+
+    <h3 class="f-title">Tech stack</h3>
+    <ul class="stack">
+      <li>HTML</li><li>CSS</li><li>JavaScript</li><li>Service Worker</li><li>Web App Manifest</li><li>Notifications API</li><li>localStorage</li><li>iCalendar (.ics)</li><li>Playwright</li>
+    </ul>
+
+    <a class="next" href="#/project"><span>Next project</span><b>PicKape <span class="arrow-r" aria-hidden="true">→</span></b></a>
   </div>
 </section>
 
@@ -567,6 +754,11 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
       <h2>Let's talk about internships.</h2>
       <p class="lead">I'm looking for an internship where I can build real mobile and web products and learn fast. Reach me through any channel below.</p>
     </div>
+    <dl class="avail">
+      <div><dt>Available from</dt><dd>Mid-December 2026</dd></div>
+      <div><dt>Work setup</dt><dd>Onsite in Manila, hybrid, or remote</dd></div>
+      <div><dt>Internship</dt><dd>OJT for my BSIT program, for the hours my school requires</dd></div>
+    </dl>
     <p class="email-line"><a href="mailto:weiwenxuan59@gmail.com">weiwenxuan59@gmail.com</a></p>
     <div class="contact-box">
       <a class="social" href="mailto:weiwenxuan59@gmail.com" aria-label="Email">
@@ -601,10 +793,12 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
 var links = document.querySelectorAll('nav ul a');
 function route(){
   var hash = location.hash.replace(/^#\/?/, '') || 'home';
+  if (!document.getElementById('view-' + hash)) hash = 'home';
   var id = 'view-' + hash;
+  var section = ['projects', 'project', 'knowledge-hub', 'deadline-tracker'].indexOf(hash) >= 0 ? 'projects' : hash;
   var views = document.querySelectorAll('.view');
   views.forEach(function(v){ v.classList.toggle('active', v.id === id); });
-  links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#/' + hash); });
+  links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#/' + section); });
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
