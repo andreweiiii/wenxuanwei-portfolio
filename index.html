@@ -108,7 +108,9 @@ a:hover .arrow-r{transform:translateX(3px)}
 .portrait img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;filter:saturate(.92)}
 .portrait figcaption{display:flex;justify-content:space-between;gap:12px;font-size:.8rem;color:var(--muted);padding:12px 2px 2px}
 .portrait figcaption b{font-weight:500;color:var(--ink)}
-.work{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;margin-top:30px}
+.work{display:grid;grid-template-columns:1fr;gap:16px;margin-top:30px}
+@media (min-width:640px){.work{grid-template-columns:repeat(2,1fr)}.work>:last-child:nth-child(odd){grid-column:1/-1}}
+@media (min-width:1000px){.work{grid-template-columns:repeat(3,1fr)}.work>:last-child:nth-child(odd){grid-column:auto}}
 .w-card .note{font-size:.78rem;color:var(--muted);font-style:italic}
 .w-card{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);background:var(--card);padding:26px;color:var(--ink);transition:border-color .2s,transform .2s,box-shadow .2s}
 .w-card:hover{text-decoration:none;border-color:#CDB79E;transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(36,27,20,.35)}
