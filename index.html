@@ -112,6 +112,10 @@ a:hover .arrow-r{transform:translateX(3px)}
 @media (min-width:640px){.work{grid-template-columns:repeat(2,1fr)}.work>:last-child:nth-child(odd){grid-column:1/-1}}
 @media (min-width:1000px){.work{grid-template-columns:repeat(3,1fr)}.work>:last-child:nth-child(odd){grid-column:auto}}
 .w-card .note{font-size:.78rem;color:var(--muted);font-style:italic}
+.award{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-size:.78rem;font-weight:600;color:var(--accent-deep);background:#F3E6D8;border:1px solid #E2C9AE;border-radius:999px;padding:4px 12px}
+.award-note{margin:22px 0 24px;border-left:3px solid var(--accent);background:var(--card);padding:16px 20px;max-width:64ch}
+.award-note b{color:var(--ink)}
+.award-note p{margin:0;color:var(--muted);font-size:.95rem}
 .w-card{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);background:var(--card);padding:26px;color:var(--ink);transition:border-color .2s,transform .2s,box-shadow .2s}
 .w-card:hover{text-decoration:none;border-color:#CDB79E;transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(36,27,20,.35)}
 .w-card .tag{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
@@ -314,6 +318,7 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
         <a class="w-card" href="#/project">
           <span class="tag">Group capstone · Mobile developer</span>
           <h3>PicKape — Coffee Quality &amp; Traceability</h3>
+          <span class="award">🏆 Best Presentation Award · iTECH 2026</span>
           <p>A Flutter app that lets coffee growers record harvests, sort for quality, and trace every batch back to its farm, even with no signal.</p>
           <div class="chips"><span>Flutter</span><span>SQLite</span><span>Offline-first</span><span>REST API</span></div>
           <span class="go">View case study <span class="arrow-r" aria-hidden="true">→</span></span>
@@ -364,6 +369,9 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
     <p class="eyebrow">Case study · Mobile</p>
     <h2>PicKape — Coffee Quality &amp; Traceability System</h2>
     <div class="p-meta"><span><b>Group capstone</b></span><span>My role: <b>Mobile developer</b></span><span>Flutter · Android</span></div>
+    <div class="award-note">
+      <p><b>🏆 Best Presentation Award, iTECH 2026.</b> Our team's paper on PicKape, "A Web and Mobile-Based Computer Vision System with Raspberry Pi-Assisted Prototype for Automated Defect Detection and Segregation of Arabica Coffee Beans for Agnep Heritage Farm," won the Best Presentation Award in the Intelligent Systems and Emerging Technologies session of the 6th International Collaboration on Technology (iTECH 2026), November 5, 2026. I built the project's Flutter mobile app.</p>
+    </div>
     <p class="lead">PicKape is a farm-to-cup management app for coffee growers. Farmers record harvest batches in the field, scan them, track quality, and hand every bean a clear traceable story — even on farms where the network is unreliable.</p>
     <p style="margin-top:24px"><a class="btn solid" href="https://pickape.com" target="_blank" rel="noopener">Visit the live website <span class="arrow-r" aria-hidden="true">↗</span></a></p>
 
@@ -490,6 +498,7 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
         <a class="w-card" href="#/project">
           <span class="tag">Group capstone · Mobile developer</span>
           <h3>PicKape — Coffee Quality &amp; Traceability</h3>
+          <span class="award">🏆 Best Presentation Award · iTECH 2026</span>
           <p>A Flutter app that lets coffee growers record harvests, sort for quality, and trace every batch back to its farm, even with no signal.</p>
           <div class="chips"><span>Flutter</span><span>SQLite</span><span>Offline-first</span><span>REST API</span></div>
           <span class="go">View case study <span class="arrow-r" aria-hidden="true">→</span></span>
@@ -662,6 +671,7 @@ footer .wrap{display:flex;flex-direction:column;gap:10px}
                 <li>Implemented the offline-first layer on the phone: a local SQLite store and a sync manager that pushes and pulls batches through the REST API when the network returns.</li>
                 <li>Built QR batch scanning with the phone camera, linking each scan to its batch record.</li>
                 <li>Integrated the app with the team's Express API for authentication, image upload, and role-based flows.</li>
+                <li>The team's PicKape paper received the <b>Best Presentation Award</b> at iTECH 2026 (6th International Collaboration on Technology), Intelligent Systems and Emerging Technologies session.</li>
               </ul>
             </div>
 
